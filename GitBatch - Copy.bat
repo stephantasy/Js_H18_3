@@ -5,6 +5,8 @@ IF NOT [%var%]==[] (
 	git add .
 	ECHO GIT COMMIT
 	git commit -am %var%
+	ECHO GIT STATUS
+	git status
 ) ELSE (
 	ECHO Fill the commit message!
 )
