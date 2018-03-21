@@ -5,12 +5,6 @@ IF NOT [%var%]==[] (
 	git add .
 	ECHO GIT COMMIT
 	git commit -am %var%
-	ECHO GIT STATUS
-	git status
-	ECHO GIT PUSH
-	git push origin master
-	ECHO GIT STATUS
-	git status
 ) ELSE (
 	ECHO Fill the commit message!
 )
