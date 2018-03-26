@@ -1,0 +1,11 @@
+<livres>
+	<livre id="1">
+		<titre>Popo</titre>
+		<auteur>Bon Dylan</auteur>
+		<desc>Un super bouquin</desc>
+		<categorie>Sciences</categorie>
+		<image>popo.pnj</image>
+		<prix>19.99</prix>
+		<nouveaute>1</nouveaute>
+	</livre>
+</livres>
