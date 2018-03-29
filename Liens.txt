@@ -1,0 +1,3 @@
+Contact : https://www.w3schools.com/w3css/tryit.asp?filename=tryw3css_examples_contact (https://www.w3schools.com/w3css/w3css_input.asp)
+liste Icons : https://www.w3schools.com/icons/icons_reference.asp
++/- boutons : https://css-tricks.com/number-increment-buttons/

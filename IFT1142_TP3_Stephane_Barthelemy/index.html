@@ -10,18 +10,22 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	
 	<!-- Style lié (fichier externe) -->	
-	<link rel="stylesheet" type="text/css" href="style/style.css">
+  <link rel="stylesheet" type="text/css" href="style/style.css">
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	
 	<!-- Javascript (fichier externe) -->	
 	<script src="javascript/lalivrairie.js"></script>
 	
-	<!-- JQuey Google CDN -->
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<!-- JQuery Google CDN -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.14.0/jquery.validate.min.js"></script>
+
 	
 	<meta name="description" content="IFT1142 - TP3" />
 </head>
 
-<body>
+<body onload="pageInitializer(); displayTime();">
   <div id="main">
     <div id="header">
       
@@ -40,15 +44,253 @@
       <!-- BARRE DE MENU -->
       <div id="menubar">
         <ul id="menu">
+          <li>Accueil</li>
+          <li>Contact</li>
+          <li>Catégories</li>
+          <li>Panier</li>
       </div>
     </div>
+
+    <!-- TEST HEURE -->
+    <div id="heure">
+      <h3 id="displayTime"></h3>
+    </div>
+    
+
+    <!-- TEST CATEGORIES -->
+    <div class="w3-dropdown-hover w3-hide-small">
+      <button class="w3-padding-large w3-button" title="More">Catégories <i class="fa fa-caret-down"></i></button>     
+      <div class="w3-dropdown-content w3-bar-block w3-card-4">
+        <a href="#" class="w3-bar-item w3-button">Merchandise</a>
+        <a href="#" class="w3-bar-item w3-button">Extras</a>
+        <a href="#" class="w3-bar-item w3-button">Media</a>
+      </div>
+    </div>
+
+    <!-- TEST MODAL -->
+    <div class="w3-container"></div>
+      <button onclick="document.getElementById('id01').style.display='block'" class="w3-button w3-black">Open Modal</button>    
+      
+      <div id="id01" class="w3-modal">
+        <div class="w3-modal-content w3-card-4 w3-animate-top">
+          
+          <header class="w3-container w3-teal"> 
+            <span onclick="document.getElementById('id01').style.display='none'" class="w3-button w3-display-topright">&times;</span>
+            <h2>Veuillez saisir vos coordonnées</h2>
+          </header>
+          
+          <div class="w3-container">
+            <form action="#" onSubmit="return mySend();" class="w3-container w3-card-4 w3-light-grey w3-text-blue w3-margin" id="contactModalForm">
+              
+              <div class="w3-row w3-section">
+                <div class="w3-col" style="width:50px"><i class="w3-xxlarge fa fa-user"></i></div>
+                  <div class="w3-rest">
+                    <input class="w3-input w3-border" name="contactFormNom" id="contactFormNom" type="text" placeholder="Nom">
+                  </div>
+              </div>
+
+              <div class="w3-row w3-section">
+                  <div class="w3-col" style="width:50px"><i class="w3-xxlarge fa fa-user"></i></div>
+                    <div class="w3-rest">
+                      <input class="w3-input w3-border" name="contactFormPrenom" id="contactFormPrenom" type="text" placeholder="Prénom">
+                    </div>
+                </div>
+                
+              <div class="w3-row w3-section">
+                <div class="w3-col" style="width:50px"><i class="w3-xxlarge fa fa-pencil"></i></div>
+                  <div class="w3-rest">
+                    <input class="w3-input w3-border" name="contactFormAddress" id="contactFormAddress" type="text" placeholder="Adresse">
+                  </div>
+              </div>
+
+              <div class="w3-row w3-section">
+                  <div class="w3-col" style="width:50px"><i class="w3-xxlarge fa fa-phone"></i></div>
+                    <div class="w3-rest">
+                      <input class="w3-input w3-border" name="contactFormPhone" id="contactFormPhone" type="text" placeholder="Téléphone">
+                    </div>
+                </div>
+
+                <div class="w3-row w3-section">
+                  <div class="w3-col" style="width:50px"><i class="w3-xxlarge fa fa-envelope-o"></i></div>
+                    <div class="w3-rest">
+                      <input class="w3-input w3-border" name="contactFormEmail" id="contactFormEmail" type="text" placeholder="Courriel">
+                    </div>
+                </div>
+
+                <p class="w3-center">
+                  <button  class="w3-button w3-round-large w3-section w3-blue w3-ripple"> Envoyer </button>
+                </p>
+            </form>
+          </div>
+
+          <footer class="w3-container w3-teal w3-center">
+            <p>Veuillez remplir tous les champs</p>
+          </footer>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- TEST PANIER -->
+    <div class="w3-container">
+      <button onclick="document.getElementById('id02').style.display='block'" class="w3-button w3-black">Open Modal</button>    
+      
+      <div id="id02" class="w3-modal">
+        <div class="w3-modal-content w3-card-4 w3-animate-top">
+          
+            <header class="w3-container w3-teal"> 
+              <span onclick="document.getElementById('id02').style.display='none'" class="w3-button w3-display-topright">&times;</span>
+              <h2>Panier</h2>
+            </header>
+
+          <ul class="w3-ul">
+            
+            <li class="w3-bar">
+              <span onclick="this.parentElement.style.display='none'" class="w3-bar-item w3-button w3-white w3-xlarge w3-right">×</span>
+              
+              <img src="images/2431293-gf.jpg" class="w3-bar-item w3-circle w3-hide-small" style="width:80px">
+              
+              <div class="w3-bar-item"  style="width:50%">
+                <span class="w3-large">Mike the most longer name ever</span><br>
+                <span>Web Designer</span>
+              </div>
+
+              <div class="w3-bar-item w3-margin-left w3-margin-right"  style="width:20%">
+                <button class="w3-button w3-round-large w3-section w3-blue w3-ripple">-</button>
+                <h4 class="w3-section w3-badge w3-white">1</h4>
+                <button class="w3-button w3-round-large w3-section w3-blue w3-ripple">+</button>               
+              </div>
+
+              <div class="w3-bar-item w3-right-align">
+                <span class="w3-large w3-section">19.99$</span>
+              </div>
+
+            </li>
+        
+
+
+            <li class="w3-bar">
+              <span onclick="this.parentElement.style.display='none'" class="w3-bar-item w3-button w3-white w3-xlarge w3-right">×</span>
+              <img src="images/2431293-gf.jpg" class="w3-bar-item w3-circle w3-hide-small" style="width:80px" >
+              
+              <div class="w3-bar-item"   style="width:50%">
+                <span class="w3-large">Mike</span><br>
+                <span>Web  popo repeter alpha</span>
+              </div>
+
+              <div class="w3-bar-item w3-margin-left w3-margin-right"  style="width:20%">
+                <button class="w3-button w3-round-large w3-section w3-blue w3-ripple">-</button>
+                <h4 class="w3-section w3-badge w3-white">1</h4>
+                <button class="w3-button w3-round-large w3-section w3-blue w3-ripple">+</button>               
+              </div>
+
+              <div class="w3-bar-item  w3-right-align">
+                <span class="w3-large w3-section">19.99$</span>
+              </div>
+            </li>
+        
+            <li class="w3-bar">
+              <span onclick="this.parentElement.style.display='none'" class="w3-bar-item w3-button w3-white w3-xlarge w3-right">×</span>
+              <img src="images/2431293-gf.jpg" class="w3-bar-item w3-circle w3-hide-small" style="width:80px">
+              
+              <div class="w3-bar-item"  style="width:50%">
+                <span class="w3-large">Jane</span><br>
+                <span>Accountant</span>
+              </div>
+  
+              <div class="w3-bar-item w3-margin-left w3-margin-right"  style="width:20%">
+                <button class="w3-button w3-round-large w3-section w3-blue w3-ripple">-</button>
+                <h4 class="w3-section w3-badge w3-white">1</h4>
+                <button class="w3-button w3-round-large w3-section w3-blue w3-ripple">+</button>               
+              </div>
+
+              <div class="w3-bar-item">
+                <span class="w3-large w3-section">19.99$</span>
+              </div>
+
+            </li>
+          </ul>
+
+          <div class="w3-container" style="width:50%" >
+
+            <div class="w3-container w3-center">
+                <h2>Sous-total</h2>
+            </div>
+            
+            <div class="w3-container">
+                <h4>TVQ :</h4>
+                <h4>TPS :</h4>
+            </div>
+
+            <div class="w3-container w3-center">
+                <h2>Total</h2>
+            </div>
+
+
+          </div>
+
+          <div class="w3-container w3-center">
+            <button class="w3-button w3-round-large w3-section w3-blue w3-ripple">Payer</button>
+            <button class="w3-button w3-round-large w3-section w3-blue w3-ripple">Fermer</button> 
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+
+    <!-- TEST CARD -->
+    <div class="w3-card-4 w3-white zoom card" style="width:250px">
+      <header class="w3-container w3-red w3-center">
+        <h4>Nouveauté !</h4>
+      </header>
+      <div class="w3-container w3-center">
+        <img class="w3-card-4" src="images/2431293-gf.jpg" alt="Image Livre" style="width:80%">
+        <h5>John Doe</h5>
+        <h6>$19,99</h6>      
+        <div class="w3-section">
+          <button class="w3-button w3-green">Ajouter</button>
+        </div>
+      </div>    
+    </div>
+
+    <div class="w3-card-4 w3-white zoom card" style="width:250px">
+      <header class="w3-container w3-red w3-center">
+        <h4>Nouveauté !</h4>
+      </header>
+      <div class="w3-container w3-center">
+        <img class="w3-card-4" src="images/2431293-gf.jpg" alt="Image Livre" style="width:80%">
+        <h5>John Doe</h5>
+        <h6>$19,99</h6>      
+        <div class="w3-section">
+          <button class="w3-button w3-green">Ajouter</button>
+        </div>
+      </div>    
+    </div>
+
+    <div class="w3-card-4 w3-white zoom card" style="width:250px">
+      <header class="w3-container  w3-center">
+        <h4>&nbsp;</h4>
+      </header>
+      <div class="w3-container w3-center">
+        <img class="w3-card-4" src="images/2431293-gf.jpg" alt="Image Livre" style="width:80%">
+        <h5>John Doe</h5>
+        <h6>$19,99</h6>      
+        <div class="w3-section">
+          <button class="w3-button w3-green">Ajouter</button>
+        </div>
+      </div>    
+    </div>
+
 
     <!-- CONTENU -->
     <div id="siteContent">		
     </div>
 
     <!-- STATUS -->
-    <div id="status">  
+    <div id="status"> 
+      <div>Afficher tous les articles</div> 
     </div>
 
     <!-- FOOTER -->
@@ -62,4 +304,79 @@
     </div>
   </div>
 </body>
+
+<script>
+// Validation du formulaire
+/*$(function() {
+  $("#contactModalForm").validate({
+    rules: {
+      contactFormNom: {
+        required: true
+      },      
+      contactFormPrenom: {
+        required: true
+      },      
+      contactFormAddress: {
+        required: true
+      },
+      contactFormPhone: {
+        required: true,
+        regex: /^[0-9]{3}-[0-9]{3}-[0-9]{4}$/
+      },      
+      contactFormEmail: {
+        required: true,
+        regex: /^(\w+\.)*\w+@(\w+\.)+[A-Za-z]+$/
+      }
+    },
+    messages: {
+      contactFormNom: {
+        required: "Entrez votre nom"
+      },
+      contactFormPrenom: {
+        required: "Entrez votre prénom"
+      },
+      contactFormAddress: {
+        required: "Entrez votre adresse"
+      },
+      contactFormPhone: {
+        required: "Entrez un numéro de téléphone",
+        regex: "Veuillez respecter le format 123-456-7890"
+      },
+      contactFormEmail: {
+        required: "Entrez votre courriel",
+        regex: "Veuillez respecter le format pseudo@domaine.ca"
+      }
+    }
+  });
+});
+$.validator.addMethod("regex", function(value, element, regexpr) {          
+    return regexpr.test(value);
+});*/
+</script>
+
+<script>
+    // Affiche l'heure de rafraichissement
+    function displayTime() {
+        //var x = document.lastModified;
+        var today = (new Date());
+        var h = today.getHours();
+        var m = today.getMinutes();
+        var s = today.getSeconds();
+        m = checkTime(m);
+        s = checkTime(s);
+        document.getElementById("displayTime").innerHTML = h + ":" + m + ":" + s;
+    }
+    function checkTime(i) {
+        if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
+        return i;
+    }
+
+    // Envoie du formulaire de contact
+    function mySend(){
+      document.getElementById('id01').style.display='none';
+      return false;
+    }
+
+</script>
+
 </html>
