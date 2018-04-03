@@ -1,11 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <livres>
 	<livre id="1">	
 		<titre>La Disparition de Stephanie Mailer</titre>
 		<auteur>JOËL DICKER</auteur>
 		<desc>En 1994, dans une petite station balnéaire des Hamptons, le maire, sa femme et un témoin sont assassinés.</desc>
 		<prix>32,95</prix>
-		<categorie>2435107-gf.jpg</categorie>
-		<image>Roman</image>
+		<image>2435107-gf.jpg</image>
+		<categorie>Roman</categorie>
 		<nouveaute>1</nouveaute>
 	</livre>	
 	<livre id="2">	
@@ -13,8 +14,8 @@
 		<auteur>ELENA FERRANTE</auteur>
 		<desc>A la fin des années 1960, alors que les évènements de 1968 s'annoncent et que les mouvements féministes et protestataires s'organisent.</desc>
 		<prix>15,95</prix>
-		<categorie>2387066-gf.jpg</categorie>
-		<image>Roman</image>
+		<image>2387066-gf.jpg</image>
+		<categorie>Roman</categorie>
 		<nouveaute>0</nouveaute>
 	</livre>	
 	<livre id="3">	
@@ -22,8 +23,8 @@
 		<auteur>ELENA FERRANTE</auteur>
 		<desc>Elena délaisse l'éducation de ses filles et sa carrière d'écrivain au profit de sa relation passionnelle avec Nino.</desc>
 		<prix>39,95</prix>
-		<categorie>2387062-gf.jpg</categorie>
-		<image>Roman</image>
+		<image>2387062-gf.jpg</image>
+		<categorie>Roman</categorie>
 		<nouveaute>0</nouveaute>
 	</livre>	
 	<livre id="4">	
@@ -31,8 +32,8 @@
 		<auteur>PIERRE LEMAITRE</auteur>
 		<desc>Second volet de la trilogie ouverte avec Au revoir là-haut.</desc>
 		<prix>34,95</prix>
-		<categorie>2372356-gf.jpg</categorie>
-		<image>Roman</image>
+		<image>2372356-gf.jpg</image>
+		<categorie>Roman</categorie>
 		<nouveaute>0</nouveaute>
 	</livre>	
 	<livre id="5">	
@@ -40,8 +41,8 @@
 		<auteur>Le narrateur évolue entre les époques, relatant les grandes avancées culturelles de l'humanité.</auteur>
 		<desc>JEAN D' ORMESSON</desc>
 		<prix>29,95</prix>
-		<categorie>2415723-gf.jpg</categorie>
-		<image>Roman</image>
+		<image>2415723-gf.jpg</image>
+		<categorie>Roman</categorie>
 		<nouveaute>0</nouveaute>
 	</livre>	
 	<livre id="5">	
@@ -223,5 +224,5 @@
 		<categorie>2393752-gf.jpg</categorie>
 		<image>Science-fiction</image>
 		<nouveaute>0</nouveaute>
-	</livre>	
+	</livre>			
 </livres>

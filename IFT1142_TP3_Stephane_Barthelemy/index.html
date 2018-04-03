@@ -14,12 +14,13 @@
   <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	
+	<!-- JQuery -->
+  <script src="javascript/jquery-3.3.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.14.0/jquery.validate.min.js"></script>
+
 	<!-- Javascript (fichier externe) -->	
 	<script src="javascript/lalivrairie.js"></script>
 	
-	<!-- JQuery Google CDN -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.14.0/jquery.validate.min.js"></script>
 
 	
 	<meta name="description" content="IFT1142 - TP3" />
@@ -132,21 +133,26 @@
     </div>
 
     <!-- TEST PANIER -->
+    <div id="panier" class="w3-container">
+    </div>
+
+
     <div class="w3-container">
-      <button onclick="document.getElementById('id02').style.display='block'" class="w3-button w3-black">Open Modal</button>    
-      
+      <button onclick="document.getElementById('id02').style.display='block'" class="w3-button w3-black">Open Modal</button>
+      <button onclick="displayPanier()" class="w3-button w3-black">PANIER</button>
+
       <div id="id02" class="w3-modal">
         <div class="w3-modal-content w3-card-4 w3-animate-top">
           
-            <header class="w3-container w3-teal"> 
-              <span onclick="document.getElementById('id02').style.display='none'" class="w3-button w3-display-topright">&times;</span>
-              <h2>Panier</h2>
-            </header>
+          <header class="w3-container w3-teal"> 
+            <span onclick="document.getElementById('id02').style.display='none'" class="w3-button w3-display-topright">&times;</span>
+            <h2>Panier</h2>
+          </header>
 
           <ul class="w3-ul">
             
             <li class="w3-bar">
-              <span onclick="this.parentElement.style.display='none'" class="w3-bar-item w3-button w3-white w3-xlarge w3-right">×</span>
+              <span onclick="this.parentElement.style.display='none'" class="w3-bar-item w3-button w3-white w3-xlarge w3-right">X</span>
               
               <img src="images/2431293-gf.jpg" class="w3-bar-item w3-circle w3-hide-small" style="width:80px">
               
@@ -167,7 +173,6 @@
 
             </li>
         
-
 
             <li class="w3-bar">
               <span onclick="this.parentElement.style.display='none'" class="w3-bar-item w3-button w3-white w3-xlarge w3-right">×</span>
@@ -304,79 +309,4 @@
     </div>
   </div>
 </body>
-
-<script>
-// Validation du formulaire
-/*$(function() {
-  $("#contactModalForm").validate({
-    rules: {
-      contactFormNom: {
-        required: true
-      },      
-      contactFormPrenom: {
-        required: true
-      },      
-      contactFormAddress: {
-        required: true
-      },
-      contactFormPhone: {
-        required: true,
-        regex: /^[0-9]{3}-[0-9]{3}-[0-9]{4}$/
-      },      
-      contactFormEmail: {
-        required: true,
-        regex: /^(\w+\.)*\w+@(\w+\.)+[A-Za-z]+$/
-      }
-    },
-    messages: {
-      contactFormNom: {
-        required: "Entrez votre nom"
-      },
-      contactFormPrenom: {
-        required: "Entrez votre prénom"
-      },
-      contactFormAddress: {
-        required: "Entrez votre adresse"
-      },
-      contactFormPhone: {
-        required: "Entrez un numéro de téléphone",
-        regex: "Veuillez respecter le format 123-456-7890"
-      },
-      contactFormEmail: {
-        required: "Entrez votre courriel",
-        regex: "Veuillez respecter le format pseudo@domaine.ca"
-      }
-    }
-  });
-});
-$.validator.addMethod("regex", function(value, element, regexpr) {          
-    return regexpr.test(value);
-});*/
-</script>
-
-<script>
-    // Affiche l'heure de rafraichissement
-    function displayTime() {
-        //var x = document.lastModified;
-        var today = (new Date());
-        var h = today.getHours();
-        var m = today.getMinutes();
-        var s = today.getSeconds();
-        m = checkTime(m);
-        s = checkTime(s);
-        document.getElementById("displayTime").innerHTML = h + ":" + m + ":" + s;
-    }
-    function checkTime(i) {
-        if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
-        return i;
-    }
-
-    // Envoie du formulaire de contact
-    function mySend(){
-      document.getElementById('id01').style.display='none';
-      return false;
-    }
-
-</script>
-
 </html>
