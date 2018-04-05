@@ -4,6 +4,11 @@
 
 
 var livres = [];  // Tableau des livres
+var panier = [
+  /*{"id":1, "nombre":1},
+  {"id":2, "nombre":1},
+  {"id":3, "nombre":2}*/
+];  // Tableau des articles dans le panier
 
 
 // Classe Livre
@@ -107,6 +112,79 @@ var livres = [];  // Tableau des livres
 /* === DIVERS === */
 /* ============== */
 
+function afficheContenuPage(filtre){
+
+  // Pas de paramètre
+  if (typeof filtre == 'undefined'){
+    // On affiche les nouveautés
+    var listElements = getElementsNouveautes();
+    $("#livresCard").append(listElements);
+  }
+
+}
+
+// Construit et renvoie la liste des livres étant tagués "Nouveauté"
+function getElementsNouveautes(){
+  var listeCard = document.createElement("div");
+  listeCard.setAttribute("class", "w3-container");  
+
+  var tailleLivres = livres.length;
+  for(var i = 0 ; i < tailleLivres ; i++){
+    //if(livres[i].nouveaute == 1){
+      listeCard.appendChild(getCardElement(livres[i]));
+    //}
+  }
+
+  return listeCard;
+}
+
+// Renvoie un élément Card contenant les informations d'un livre
+function getCardElement(leLivre){
+  var laCard = document.createElement("div");
+  laCard.setAttribute("class", "w3-card-4 w3-white zoom card"); 
+  laCard.setAttribute("style", "width:250px"); 
+  
+  var leHeader = document.createElement("div");
+  leHeader.setAttribute("class", "w3-container w3-red w3-center");  
+  var leHeaderText = document.createElement("h4");
+  leHeaderText.innerHTML = "Nouveauté !";
+  leHeader.appendChild(leHeaderText);
+
+  
+  var leCorps = document.createElement("div");
+  leCorps.setAttribute("class", "w3-container w3-center"); 
+  
+  var lImage = document.createElement("img");  
+  lImage.setAttribute("src", "images/" + leLivre.image); 
+  lImage.setAttribute("alt", "Image Livre"); 
+  lImage.setAttribute("class", "w3-card-4"); 
+  lImage.setAttribute("style", "height:200px");
+  var lAuteur = document.createElement("h5");
+  lAuteur.innerHTML = leLivre.auteur;
+  var lePrix = document.createElement("h6");
+  lePrix.innerHTML = (parseFloat(leLivre.prix.replace(',','.'))).toFixed(2) + "$";
+  
+  var leBtnDiv = document.createElement("div");
+  leBtnDiv.setAttribute("class", "w3-section"); 
+  var leBtn = document.createElement("button");
+  leBtn.setAttribute("class", "w3-button w3-green"); 
+  leBtn.innerHTML = "Ajouter";
+  leBtnDiv.appendChild(leBtn);
+
+  leCorps.appendChild(lImage);
+  leCorps.appendChild(lAuteur);
+  leCorps.appendChild(lePrix);
+  leCorps.appendChild(leBtnDiv);
+
+
+  laCard.appendChild(leHeader);
+  laCard.appendChild(leCorps);
+
+  return laCard;
+
+}
+
+// Affiche le contenu du panier
 function displayPanier(){
 
   /**********************************************
@@ -130,12 +208,27 @@ function displayPanier(){
   ***********************************************/
   var listeUl = document.createElement("ul");
   listeUl.setAttribute("class", "w3-ul");
-
-  // On construit chaque élément
-  var nblements = 1;
-  for(var i = 0 ; i < nblements ; i++){
-      var element = createNewListElement("Titre", "Auteur", "images/2431293-gf.jpg", "0.00", "2");
-      listeUl.appendChild(element);
+  
+  var nblements = panier.length;
+  if(nblements > 0){
+    // On construit chaque élément
+    for(var i = 0 ; i < nblements ; i++){    
+      var article = panier[i];
+        var element = createNewListElement(
+          article.id,
+          livres[article.id].titre, 
+          livres[article.id].auteur, 
+          livres[article.id].image, 
+          livres[article.id].prix, 
+          article.nombre);
+        listeUl.appendChild(element);
+    }
+  }else{
+    // Panier vide
+    var element = document.createElement("h2");
+    element.setAttribute("class", "w3-center w3-padding");
+    element.innerHTML = "Votre panier est vide !";
+    listeUl.appendChild(element);
   }
 
   /**********************************************
@@ -162,21 +255,23 @@ function displayPanier(){
 }
 
 // Renvoie un élément de la liste des achats du panier
-function createNewListElement(titre, auteur, image, prix, qte){
+function createNewListElement(id, titre, auteur, image, prix, qte){
   // L'élément
   var element = document.createElement("li");
+  element.setAttribute("id", id);
   element.setAttribute("class", "w3-bar");
 
   // Croix pour supprimer l'élément
   var spanButtonDelete = document.createElement("span");
   spanButtonDelete.setAttribute("class", "w3-bar-item w3-button w3-white w3-xlarge w3-right");
-  spanButtonDelete.setAttribute("onClick", "DeleteElementPanier(this);");
+  spanButtonDelete.setAttribute("onClick", "deleteElementPanier(this);");
   spanButtonDelete.innerHTML = "X";
   
   // Zone Image du livre
   var imgLivre = document.createElement("img");
-  imgLivre.setAttribute("src", image);
-  imgLivre.setAttribute("class", "w3-bar-item w3-circle w3-hide-small");
+  imgLivre.setAttribute("src", "images/" + image);
+  imgLivre.setAttribute("alt", "Image Livre"); 
+  imgLivre.setAttribute("class", "w3-bar-item w3-hide-small");
   imgLivre.setAttribute("style", "width:80px");
 
   // === Zone Titre + auteur ===
@@ -192,7 +287,7 @@ function createNewListElement(titre, auteur, image, prix, qte){
   // Assemblage
   var divTitleAuthor = document.createElement("div");
   divTitleAuthor.setAttribute("class", "w3-bar-item");
-  divTitleAuthor.setAttribute("style", "width:50%");
+  divTitleAuthor.setAttribute("style", "width:45%");
   divTitleAuthor.appendChild(spanTitre);
   divTitleAuthor.appendChild(cr);
   divTitleAuthor.appendChild(spanAuteur);
@@ -201,14 +296,17 @@ function createNewListElement(titre, auteur, image, prix, qte){
   // Bouton -
   var divMinusButton = document.createElement("button");
   divMinusButton.setAttribute("class", "w3-button w3-round-large w3-section w3-blue w3-ripple");
+  divMinusButton.setAttribute("onClick", "removeElementPanier(this);");
   divMinusButton.innerHTML = "-";
   // Quantité
   var hQte = document.createElement("h4");
+  hQte.setAttribute("id", "elQte" + id);
   hQte.setAttribute("class", "w3-section w3-badge w3-white");
   hQte.innerHTML = qte;
   // Bouton +
   var divPlusButton = document.createElement("button");
   divPlusButton.setAttribute("class", "w3-button w3-round-large w3-section w3-blue w3-ripple");
+  divPlusButton.setAttribute("onClick", "addElementPanier(this);");
   divPlusButton.innerHTML = "+";
   // Assemblage
   var divAjustQte = document.createElement("div");
@@ -221,7 +319,8 @@ function createNewListElement(titre, auteur, image, prix, qte){
   // Zone prix
   var spanPrice = document.createElement("span");
   spanPrice.setAttribute("class", "w3-large w3-section");
-  spanPrice.innerHTML = prix + "$";
+  spanPrice.setAttribute("id", "elPrice" + id);
+  spanPrice.innerHTML = (parseFloat(prix.replace(',','.'))*qte).toFixed(2) + "$";
   var divPrice = document.createElement("div");
   divPrice.setAttribute("class", "w3-bar-item w3-right-align");
   divPrice.appendChild(spanPrice);
@@ -236,8 +335,96 @@ function createNewListElement(titre, auteur, image, prix, qte){
   return element;
 }
 
-function DeleteElementPanier(element){
-  element.parentElement.style.display='none';
+
+// Décrémente un article du panier
+function removeElementPanier(element){
+  var id = element.parentElement.parentElement.id;  
+  var taille = panier.length;
+  var article;
+  // On ôte un article du panier (Tableau)
+  for(var i = 0 ; i < taille ; i++){
+    article = panier[i];
+    if(article.id == id){
+      // Seulement s'il en reste au moins 2
+      if(article.nombre > 1){
+        // On retranche
+        article.nombre--;
+        
+        // On rafraichi le nombre dans l'élément
+        $("#elQte" + id).text(article.nombre);
+
+        // On rafraichi le prix dans l'élément
+        $("#elPrice" + id).text((parseFloat(livres[article.id].prix.replace(',','.'))*article.nombre).toFixed(2) + "$");
+
+        // On rafraichi le calcul du total
+        refreshSommePanier();
+      }
+      break;  // Inutile de continuer
+    }
+  }
+}
+
+// Incrément un article du panier
+function addElementPanier(element){
+  var id = element.parentElement.parentElement.id;  
+  var taille = panier.length;
+  var article;
+  // On ôte un article du panier (Tableau)
+  for(var i = 0 ; i < taille ; i++){
+    article = panier[i];
+    if(article.id == id){
+      // On ajoute
+      article.nombre++;
+        
+      // On rafraichi le nombre dans l'élément
+      $("#elQte" + id).text(article.nombre);
+
+      // On rafraichi le prix dans l'élément
+      $("#elPrice" + id).text((parseFloat(livres[article.id].prix.replace(',','.'))*article.nombre).toFixed(2) + "$");
+
+      // On rafraichi le calcul du total
+      refreshSommePanier();
+      
+      break;  // Inutile de continuer
+    }
+  }
+}
+
+// Supprime un article du panier
+function deleteElementPanier(element){
+
+  var id = element.parentElement.id;
+  var taille = panier.length;
+  // On supprime l'élément du panier (Tableau)
+  for(var i = 0 ; i < taille ; i++){
+    if(panier[i].id == id){
+      panier.splice(i, 1);
+      break;  // Inutile de continuer
+    }
+  }
+  // On supprime l'élément du panier (Modal)
+  element.parentElement.parentElement.removeChild(element.parentElement);
+
+  // On rafraichi le calcul du total
+  refreshSommePanier();
+}
+
+// Calcul le montant total du panier
+function refreshSommePanier(){
+  // TODO
+}
+
+// DEBUG
+function AlertPanier(){  
+  var popo = "";
+  var taille = panier.length;
+  for(var i = 0 ; i < taille ; i++){
+    popo += panier[i].id;
+    if(i < taille - 1){
+      popo += ", ";
+    } 
+  }
+  alert("panier = " + popo);
 }
 
 function pageInitializer(){
@@ -253,9 +440,11 @@ function pageInitializer(){
   
   //alert("nb livres = " + livres.length);
 
-  for(var i=0 ; i < livres.length ; i++){
+  /*for(var i=0 ; i < livres.length ; i++){
     alert(" livres = " + livres[i].affiche());
-  }
+  }*/
+
+  
 
 }
 
@@ -267,6 +456,7 @@ function downloadXmlFile() {
     dataType: 'xml',
     success: function(listeLivres){
       xmlToArray(listeLivres);
+      afficheContenuPage();
     },
     error: function(url){ alert('Data file not found!'); }
   });

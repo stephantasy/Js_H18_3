@@ -36,67 +36,58 @@
 		<categorie>Roman</categorie>
 		<nouveaute>0</nouveaute>
 	</livre>	
-	<livre id="5">	
-		<titre>Et moi, je vis toujours</titre>
-		<auteur>Le narrateur évolue entre les époques, relatant les grandes avancées culturelles de l'humanité.</auteur>
-		<desc>JEAN D' ORMESSON</desc>
-		<prix>29,95</prix>
-		<image>2415723-gf.jpg</image>
-		<categorie>Roman</categorie>
-		<nouveaute>0</nouveaute>
-	</livre>	
-	<livre id="5">	
+	<livre id="6">	
 		<titre>99 trucs pour s'enrichir</titre>
 		<auteur>COLLECTIF</auteur>
 		<desc>Forts du succès de la première édition, les chroniqueurs experts de la chronique « Dans vos poches » du Journal de Montréal récidivent.</desc>
 		<prix>19,95</prix>
-		<categorie>2372509-gf.jpg</categorie>
-		<image>Sciences</image>
+		<image>2372509-gf.jpg</image>
+		<categorie>Sciences</categorie>
 		<nouveaute>1</nouveaute>
 	</livre>	
-	<livre id="6">	
+	<livre id="7">	
 		<titre>Le Guide de la rénovation heureuse</titre>
 		<auteur>JEAN-BENOÎT NADEAU</auteur>
 		<desc>Après plusieurs projets personnels de rénovation, le journaliste Jean-Benoît Nadeau a réalisé un premier reportage sur ce sujet.</desc>
 		<prix>22,95</prix>
-		<categorie>2385277-gf.jpg</categorie>
-		<image>Sciences</image>
+		<image>2385277-gf.jpg</image>
+		<categorie>Sciences</categorie>
 		<nouveaute>0</nouveaute>
 	</livre>	
-	<livre id="7">	
+	<livre id="8">	
 		<titre>Les Quatre saisons de votre potager</titre>
 		<auteur>MÉLANIE GRÉGOIRE</auteur>
 		<desc>Oui, la culture de vos propres légumes peut être facile et fructueuse !</desc>
 		<prix>29,95</prix>
-		<categorie>2420464-gf.jpg</categorie>
-		<image>Sciences</image>
+		<image>2420464-gf.jpg</image>
+		<categorie>Sciences</categorie>
 		<nouveaute>0</nouveaute>
 	</livre>	
-	<livre id="8">	
+	<livre id="9">	
 		<titre>107 principes pour investir dans l'immobilier au québec</titre>
 		<auteur>GUY BAILLARGEON, BRUNO RAKO</auteur>
 		<desc>Des conseils pour investir dans l'immobilier au Canada en s'adaptant aux particularités juridiques de ce marché.</desc>
 		<prix>29,95</prix>
-		<categorie>2425434-gf.jpg</categorie>
-		<image>Sciences</image>
+		<image>2425434-gf.jpg</image>
+		<categorie>Sciences</categorie>
 		<nouveaute>0</nouveaute>
 	</livre>	
-	<livre id="9">	
+	<livre id="10">	
 		<titre>Quand obsession rime avec passion</titre>
 		<auteur>GRANT CARDONE</auteur>
 		<desc>L'obsession m'a sauvé la vie et a fait de moi une superstar dans le monde des affaires. que peut-elle faire pour vous ?</desc>
 		<prix>24,95</prix>
-		<categorie>2386203-gf.jpg</categorie>
-		<image>Sciences</image>
+		<image>2386203-gf.jpg</image>
+		<categorie>Sciences</categorie>
 		<nouveaute>0</nouveaute>
-	</livre>	
+	</livre>		
 	<livre id="11">	
 		<titre>Holocauste : une nouvelle histoire</titre>
 		<auteur>LAURENCE REES</auteur>
 		<desc>Un nouvel éclairage sur la Shoah fondé sur de nombreux témoignages inédits, de documents d'époque et de travaux d'historiens.</desc>
 		<prix>36,95</prix>
-		<categorie>2373231-gf.jpg</categorie>
-		<image>Histoire</image>
+		<image>2373231-gf.jpg</image>
+		<categorie>Histoire</categorie>
 		<nouveaute>1</nouveaute>
 	</livre>	
 	<livre id="12">	
@@ -104,8 +95,8 @@
 		<auteur>KATE CLIFFORD LARSON</auteur>
 		<desc>Biographie de Rosemary, soeur de John Fitzgerald Kennedy.</desc>
 		<prix>13,95</prix>
-		<categorie>2428907-gf.jpg</categorie>
-		<image>Histoire</image>
+		<image>2428907-gf.jpg</image>
+		<categorie>Histoire</categorie>
 		<nouveaute>0</nouveaute>
 	</livre>	
 	<livre id="13">	
@@ -113,8 +104,8 @@
 		<auteur>HENRI DORION</auteur>
 		<desc>Ce livre, le premier d'une série intitulée « Le monde en questions », se veut une présentation de 365 villes et villages du Québec au moyen d'autant de questions.</desc>
 		<prix>24,95</prix>
-		<categorie>2443637-gf.jpg</categorie>
-		<image>Histoire</image>
+		<image>2443637-gf.jpg</image>
+		<categorie>Histoire</categorie>
 		<nouveaute>0</nouveaute>
 	</livre>	
 	<livre id="14">	
@@ -122,8 +113,8 @@
 		<auteur>SARAH BAKEWELL</auteur>
 		<desc>Paris, 1933. Trois amis sirotent un cocktail à l'abricot : Jean-Paul Sartre, Simone de Beauvoir et Raymond Aron, tout juste rentré de Berlin où il a découvert la phénoménologie.</desc>
 		<prix>36,95</prix>
-		<categorie>2372375-gf.jpg</categorie>
-		<image>Histoire</image>
+		<image>2372375-gf.jpg</image>
+		<categorie>Histoire</categorie>
 		<nouveaute>0</nouveaute>
 	</livre>	
 	<livre id="15">	
@@ -131,8 +122,8 @@
 		<auteur>KEN SETTERINGTON</auteur>
 		<desc>Avant les années 1930, l'Allemagne, en particulier sa capitale Berlin, était l'un des endroits les plus tolérants envers les homosexuels.</desc>
 		<prix>17,95</prix>
-		<categorie>2432344-gf.jpg</categorie>
-		<image>Histoire</image>
+		<image>2432344-gf.jpg</image>
+		<categorie>Histoire</categorie>
 		<nouveaute>0</nouveaute>
 	</livre>	
 	<livre id="16">	
@@ -140,8 +131,8 @@
 		<auteur>JARRETT J KROSOCZKA</auteur>
 		<desc>Victor est de retour à l'académie et sa deuxième année ne débute pas comme il l'imaginait.</desc>
 		<prix>11,99</prix>
-		<categorie>2293868-gf.jpg</categorie>
-		<image>BD &amp; Mangas</image>
+		<image>2293868-gf.jpg</image>
+		<categorie>BD &amp; Mangas</categorie>
 		<nouveaute>1</nouveaute>
 	</livre>	
 	<livre id="17">	
@@ -149,8 +140,8 @@
 		<auteur>JEAN-CHRISTOPHE DERRIEN &amp; AL</auteur>
 		<desc>Frigiel, son chien Fluffy et leurs amis Alice et Abel enquêtent sur la disparition de la livraison de pastèques destinées au magasin de Koreme.</desc>
 		<prix>17,95</prix>
-		<categorie>2396243-gf.jpg</categorie>
-		<image>BD &amp; Mangas</image>
+		<image>2396243-gf.jpg</image>
+		<categorie>BD &amp; Mangas</categorie>
 		<nouveaute>0</nouveaute>
 	</livre>	
 	<livre id="18">	
@@ -158,8 +149,8 @@
 		<auteur>AKIRA TORIYAMA, TOYOTARO</auteur>
 		<desc>Trunks est revenu une nouvelle fois du futur ! Dans son monde, un homme ressemblant à Goku trait pour trait, surnommé Goku Black, cherche à éradiquer la race humaine.</desc>
 		<prix>12,95</prix>
-		<categorie>2431293-gf.jpg</categorie>
-		<image>BD &amp; Mangas</image>
+		<image>2431293-gf.jpg</image>
+		<categorie>BD &amp; Mangas</categorie>
 		<nouveaute>0</nouveaute>
 	</livre>	
 	<livre id="19">	
@@ -167,8 +158,8 @@
 		<auteur>BEN CLANTON</auteur>
 		<desc>Narval est une licorne de mer insouciante. Gelato est une méduse raisonnable.</desc>
 		<prix>10,99</prix>
-		<categorie>2429939-gf.jpg</categorie>
-		<image>BD &amp; Mangas</image>
+		<image>2429939-gf.jpg</image>
+		<categorie>BD &amp; Mangas</categorie>
 		<nouveaute>0</nouveaute>
 	</livre>	
 	<livre id="20">	
@@ -176,8 +167,8 @@
 		<auteur>HIRO MASHIMA</auteur>
 		<desc>Lucy, jeune magicienne, rêve de rejoindre la fameuse guilde de magiciens, la Fairy Tail.</desc>
 		<prix>5,95</prix>
-		<categorie>973074-gf.jpg</categorie>
-		<image>BD &amp; Mangas</image>
+		<image>973074-gf.jpg</image>
+		<categorie>BD &amp; Mangas</categorie>
 		<nouveaute>0</nouveaute>
 	</livre>	
 	<livre id="21">	
@@ -185,8 +176,8 @@
 		<auteur>OWEN KING, STEPHEN KING</auteur>
 		<desc>Dans la prison pour femmes d'une petite ville des Appalaches, les femmes sont frappées d'un état léthargique et sont enveloppées dans un cocon.</desc>
 		<prix>39,95</prix>
-		<categorie>2424906-gf.jpg</categorie>
-		<image>Science-fiction</image>
+		<image>2424906-gf.jpg</image>
+		<categorie>Science-fiction</categorie>
 		<nouveaute>1</nouveaute>
 	</livre>	
 	<livre id="22">	
@@ -194,8 +185,8 @@
 		<auteur>ANDY WEIR</auteur>
 		<desc>Le nouveau thriller d'Andy Weir, auteur du best-seller international Seul sur Mars (The Martian)</desc>
 		<prix>34,95</prix>
-		<categorie>2415587-gf.jpg</categorie>
-		<image>Science-fiction</image>
+		<image>2415587-gf.jpg</image>
+		<categorie>Science-fiction</categorie>
 		<nouveaute>0</nouveaute>
 	</livre>	
 	<livre id="23">	
@@ -203,8 +194,8 @@
 		<auteur>ANNE ROBILLARD</auteur>
 		<desc>Dans l'univers, il existe une multitude de mondes parallèles et entre eux s'ouvrent parfois des portails qui nous permettent d'y accéder.</desc>
 		<prix>24,95</prix>
-		<categorie>2416842-gf.jpg</categorie>
-		<image>Science-fiction</image>
+		<image>2416842-gf.jpg</image>
+		<categorie>Science-fiction</categorie>
 		<nouveaute>0</nouveaute>
 	</livre>	
 	<livre id="24">	
@@ -212,8 +203,8 @@
 		<auteur>PATRICK SENÉCAL</auteur>
 		<desc>Il était une fois...... Alice, une jeune fille curieuse, délurée, fonceuse et intelligente de Brossard.</desc>
 		<prix>27,95</prix>
-		<categorie>2419824-gf.jpg</categorie>
-		<image>Science-fiction</image>
+		<image>2419824-gf.jpg</image>
+		<categorie>Science-fiction</categorie>
 		<nouveaute>0</nouveaute>
 	</livre>	
 	<livre id="25">	
@@ -221,8 +212,8 @@
 		<auteur>ERNEST CLINE</auteur>
 		<desc>La réalité étant devenue insoutenable en 2045, la plupart de l'humanité passe son temps connectée à l'OASIS, un vaste monde virtuel.</desc>
 		<prix>27,95</prix>
-		<categorie>2393752-gf.jpg</categorie>
-		<image>Science-fiction</image>
+		<image>2393752-gf.jpg</image>
+		<categorie>Science-fiction</categorie>
 		<nouveaute>0</nouveaute>
-	</livre>			
+	</livre>		
 </livres>
