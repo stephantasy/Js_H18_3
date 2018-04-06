@@ -11,7 +11,7 @@
 	
 	<!-- Style lié (fichier externe) -->	
   <link rel="stylesheet" type="text/css" href="style/style.css">
-  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <link rel="stylesheet" href="style/w3.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	
 	<!-- JQuery -->
@@ -19,6 +19,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.14.0/jquery.validate.min.js"></script>
 
 	<!-- Javascript (fichier externe) -->	
+	<script src="javascript/classLivre.js"></script>
 	<script src="javascript/lalivrairie.js"></script>
 	
 
@@ -57,18 +58,22 @@
       <h3 id="displayTime"></h3>
     </div>
     
+    <!-- TEST NOUVEAUTÉ -->
+    <button onclick="afficheContenuPageLivres()" class="w3-button w3-green">Nouveauté !</button>
 
     <!-- TEST CATEGORIES -->
     <div class="w3-dropdown-hover w3-hide-small">
-      <button class="w3-padding-large w3-button" title="More">Catégories <i class="fa fa-caret-down"></i></button>     
-      <div class="w3-dropdown-content w3-bar-block w3-card-4">
-        <a href="#" class="w3-bar-item w3-button">Merchandise</a>
-        <a href="#" class="w3-bar-item w3-button">Extras</a>
-        <a href="#" class="w3-bar-item w3-button">Media</a>
+      <button id="boutonCategorie" class="w3-padding-large w3-button">Catégories <i class="fa fa-caret-down"></i></button>     
+      <div id="choixCategorie" class="w3-dropdown-content w3-bar-block w3-card-4">
+        <a href="#" id="Roman" class="w3-bar-item w3-button" onclick="afficheContenuPageLivres(this)">Roman</a>
+        <a href="#" id="Sciences" class="w3-bar-item w3-button" onclick="afficheContenuPageLivres(this)">Sciences</a>
+        <a href="#" id="Histoire" class="w3-bar-item w3-button" onclick="afficheContenuPageLivres(this)">Histoire</a>
+        <a href="#" id="BDManga" class="w3-bar-item w3-button" onclick="afficheContenuPageLivres(this)">BD &amp; Mangas</a>
+        <a href="#" id="ScienceFiction" class="w3-bar-item w3-button" onclick="afficheContenuPageLivres(this)">Science-fiction</a>
       </div>
     </div>
 
-    <!-- TEST MODAL -->
+    <!-- FORMULAIRE CONTACT -->
     <div class="w3-container"></div>
       <button onclick="document.getElementById('id01').style.display='block'" class="w3-button w3-black">Open Modal</button>    
       
@@ -134,10 +139,8 @@
 
     <!-- TEST PANIER -->
     <button onclick="displayPanier()" class="w3-button w3-black">PANIER</button>
-    <div id="panier" class="w3-container">
-
-    </div>
-
+    <button onclick="AlertPanier()" class="w3-button w3-red">tab PANIER</button>
+    <div id="panier" class="w3-container"></div>
 <!--
     <div class="w3-container">
       <button onclick="document.getElementById('id02').style.display='block'" class="w3-button w3-black">Open Modal</button>
@@ -249,7 +252,7 @@
 
     <!-- TEST CARD -->
     <div id="livresCard">
-      <div class="w3-card-4 w3-white zoom card" style="width:250px">
+    <!-- <div class="w3-card-4 w3-white zoom card" style="width:250px">
         <header class="w3-container w3-red w3-center">
           <h4>Nouveauté !</h4>
         </header>
@@ -269,13 +272,13 @@
         </header>
         <div class="w3-container w3-center">
           <img class="w3-card-4" src="images/2431293-gf.jpg" alt="Image Livre" style="width:80%">
-          <h5>John Doe</h5>
+          <h5>John Doe et machin truck de sa mer l'automytho</h5>
           <h6>$19,99</h6>      
           <div class="w3-section">
             <button class="w3-button w3-green">Ajouter</button>
           </div>
         </div>    
-      </div>
+      </div>-->
     </div>
 
 
@@ -283,9 +286,9 @@
     <div id="siteContent">		
     </div>
 
-    <!-- STATUS -->
-    <div id="status"> 
-      <div>Afficher tous les articles</div> 
+    <!-- AFFICHER TOUS LES ARTICLES -->
+    <div id="status" class="w3-container  w3-center">       
+      <button id="AllLivres" onclick="afficheContenuPageLivres(this)" class="w3-button w3-green w3-center">Afficher tous les articles</button>
     </div>
 
     <!-- FOOTER -->

@@ -4,150 +4,77 @@
 
 
 var livres = [];  // Tableau des livres
-var panier = [
-  /*{"id":1, "nombre":1},
-  {"id":2, "nombre":1},
-  {"id":3, "nombre":2}*/
-];  // Tableau des articles dans le panier
+var panier = [];  // Tableau des articles dans le panier
 
 
-// Classe Livre
-{
-  function Livre(){
-    this.titre;
-    this.auteur;
-    this.desc;
-    this.prix;
-    this.categorie;
-    this.image;
-    this.nouveaute;
-  }
-  // Constructeurs
-  Livre.prototype.Livre=function(titre, auteur, desc, prix, categorie, image, nouveaute){  
-    // Constructeur de copie
-    if(arguments[0] instanceof Livre){
-      //alert("Constructeur de copie");
-      this.titre = arguments[0].titre;
-      this.auteur = arguments[0].auteur;
-      this.desc = arguments[0].desc;
-      this.prix = arguments[0].prix;
-      this.categorie = arguments[0].categorie;
-      this.image = arguments[0].image;
-      this.nouveaute = arguments[0].nouveaute;
-    }
-    // Constructeur paramétré
-    else if(arguments.length == 7){
-      //alert("Constructeur paramétré");
-      this.titre = titre;
-      this.auteur = auteur;
-      this.desc = desc;
-      this.prix = prix;
-      this.categorie = categorie;
-      this.image = image;
-      this.nouveaute = nouveaute;
-    }
-    // Constructeur par défaut (si le nombre d'argument ne correspond pas, on le considère par défaut)
-    else {
-      //alert("Constructeur par défaut");
-      this.titre = "";
-      this.auteur = "";
-      this.desc = "";
-      this.prix = 0.0;
-      this.categorie = "";
-      this.image = "";
-      this.nouveaute = false;
-    }
-  }
-  // Méthodes GET
-  Livre.prototype.getTitre = function(){
-    return this.titre;
-  }
-  Livre.prototype.getAuteur = function(){
-    return this.auteur;
-  }
-  Livre.prototype.getDesc = function(){
-    return this.desc;
-  }
-  Livre.prototype.getPrix= function(){
-    return this.prix;
-  }
-  Livre.prototype.getCategorie = function(){
-    return this.categorie;
-  }
-  Livre.prototype.getImage = function(){
-    return this.image;
-  }
-  Livre.prototype.getNouveaute = function(){
-    return this.nouveaute;
-  }
-  // Méthodes SET
-  Livre.prototype.setTitre = function(titre){
-    this.titre = titre;
-  }
-  Livre.prototype.setAuteur = function(auteur){
-    this.auteur = auteur;
-  }
-  Livre.prototype.setDesc = function(desc){
-    this.desc = desc;
-  }
-  Livre.prototype.setPrix= function(prix){
-    this.prix = prix;
-  }
-  Livre.prototype.setCategorie = function(categorie){
-    this.categorie = categorie;
-  }
-  Livre.prototype.setImage = function(image){
-    this.image =image;
-  }
-  Livre.prototype.setNouveaute = function(nouveaute){
-    this.nouveaute =nouveaute;
-  }
-  // Méthodes diverses
-  Livre.prototype.affiche = function(){
-    return this.titre + "<br>" +  this.auteur + "<br>" + this.desc + "<br>" + this.prix + "<br>" + this.categorie + "<br>" + this.image + "<br>" + this.nouveaute + "<br>";
-  }
-}
+/* ===================== */
+/* ===  CARD LIVRE   === */
+/* ===================== */
 
-/* ============== */
-/* === DIVERS === */
-/* ============== */
+// Affiche les éléments demandés
+function afficheContenuPageLivres(filtre){
 
-function afficheContenuPage(filtre){
+  // On vide la page
+  $("#livresCard").empty();;
 
   // Pas de paramètre
   if (typeof filtre == 'undefined'){
     // On affiche les nouveautés
-    var listElements = getElementsNouveautes();
+    var listElements = getElementsLivresNouveautes();
+    $("#livresCard").append(listElements);
+  }else{    
+    // On affiche les livres de la catégorie demandé
+    var listElements = getElementsLivres(filtre.id);
     $("#livresCard").append(listElements);
   }
 
 }
 
 // Construit et renvoie la liste des livres étant tagués "Nouveauté"
-function getElementsNouveautes(){
+function getElementsLivresNouveautes(){
   var listeCard = document.createElement("div");
   listeCard.setAttribute("class", "w3-container");  
 
-  var tailleLivres = livres.length;
+  var tailleLivres = livres.length;  
   for(var i = 0 ; i < tailleLivres ; i++){
-    //if(livres[i].nouveaute == 1){
+    if(livres[i].nouveaute == 1){
       listeCard.appendChild(getCardElement(livres[i]));
-    //}
+    }
   }
+  return listeCard;
+}
 
+// Construit et renvoie la liste des livres de la catégorie demandée
+function getElementsLivres(categorie){
+  var listeCard = document.createElement("div");
+  listeCard.setAttribute("class", "w3-container");  
+
+  var tailleLivres = livres.length;  
+  for(var i = 0 ; i < tailleLivres ; i++){
+    if(livres[i].categorie == categorie || "AllLivres" == categorie){
+      listeCard.appendChild(getCardElement(livres[i]));
+    }
+  }
   return listeCard;
 }
 
 // Renvoie un élément Card contenant les informations d'un livre
 function getCardElement(leLivre){
   var laCard = document.createElement("div");
+  laCard.setAttribute("data-userid", leLivre.id); 
   laCard.setAttribute("class", "w3-card-4 w3-white zoom card"); 
   laCard.setAttribute("style", "width:250px"); 
   
   var leHeader = document.createElement("div");
-  leHeader.setAttribute("class", "w3-container w3-red w3-center");  
+  //leHeader.setAttribute("class", "w3-container w3-red w3-center");  
   var leHeaderText = document.createElement("h4");
-  leHeaderText.innerHTML = "Nouveauté !";
+  // Est-ce une nouveauté ?
+  if(leLivre.nouveaute == 1){
+    leHeader.setAttribute("class", "w3-container w3-red w3-center"); 
+    leHeaderText.innerHTML = "Nouveauté !";
+  }else{
+    leHeaderText.innerHTML = "&nbsp";
+  }
   leHeader.appendChild(leHeaderText);
 
   
@@ -168,6 +95,7 @@ function getCardElement(leLivre){
   leBtnDiv.setAttribute("class", "w3-section"); 
   var leBtn = document.createElement("button");
   leBtn.setAttribute("class", "w3-button w3-green"); 
+  leBtn.setAttribute("onClick", "addOneToPanier(this);"); 
   leBtn.innerHTML = "Ajouter";
   leBtnDiv.appendChild(leBtn);
 
@@ -181,11 +109,53 @@ function getCardElement(leLivre){
   laCard.appendChild(leCorps);
 
   return laCard;
-
 }
+
+
+// Ajoute l'élément en paramètre au panier
+function addOneToPanier(element){
+  var id = element.parentElement.parentElement.parentElement.getAttribute("data-userid");
+  var found = false;
+  var taille = panier.length;
+
+  // On ajoute un élément au panier
+  for(var i = 0 ; i < taille ; i++){
+    article = panier[i];
+    if(article.id == id){
+      // On ajoute
+      article.nombre++;
+      found = true;
+      alert("Found!");
+      break;
+    }
+  }
+
+  // Si on ne l'a pas trouvé, alors on le crée
+  if(!found){
+    panier.push({
+      "id":id,
+      "nombre":1
+    });
+  }
+
+  // On met à jour le bouton Panier
+  refreshButtonPanier();
+}
+
+// On affiche le nombre d'article dans le panier
+function refreshButtonPanier(){
+  //TODO
+}
+
+/* ===================== */
+/* ===    PANIER     === */
+/* ===================== */
 
 // Affiche le contenu du panier
 function displayPanier(){
+
+  // S'il existe déjà, on le détruit
+  $("#panierModal").remove();
 
   /**********************************************
       Header avec titre + bouton de fermeture
@@ -215,7 +185,7 @@ function displayPanier(){
     for(var i = 0 ; i < nblements ; i++){    
       var article = panier[i];
         var element = createNewListElement(
-          article.id,
+          livres[article.id].id,
           livres[article.id].titre, 
           livres[article.id].auteur, 
           livres[article.id].image, 
@@ -225,9 +195,7 @@ function displayPanier(){
     }
   }else{
     // Panier vide
-    var element = document.createElement("h2");
-    element.setAttribute("class", "w3-center w3-padding");
-    element.innerHTML = "Votre panier est vide !";
+    var element = getMsgPanierVide();
     listeUl.appendChild(element);
   }
 
@@ -258,7 +226,7 @@ function displayPanier(){
 function createNewListElement(id, titre, auteur, image, prix, qte){
   // L'élément
   var element = document.createElement("li");
-  element.setAttribute("id", id);
+  element.setAttribute("data-index", id);
   element.setAttribute("class", "w3-bar");
 
   // Croix pour supprimer l'élément
@@ -296,7 +264,7 @@ function createNewListElement(id, titre, auteur, image, prix, qte){
   // Bouton -
   var divMinusButton = document.createElement("button");
   divMinusButton.setAttribute("class", "w3-button w3-round-large w3-section w3-blue w3-ripple");
-  divMinusButton.setAttribute("onClick", "removeElementPanier(this);");
+  divMinusButton.setAttribute("onClick", "removeElementInPanier(this);");
   divMinusButton.innerHTML = "-";
   // Quantité
   var hQte = document.createElement("h4");
@@ -306,7 +274,7 @@ function createNewListElement(id, titre, auteur, image, prix, qte){
   // Bouton +
   var divPlusButton = document.createElement("button");
   divPlusButton.setAttribute("class", "w3-button w3-round-large w3-section w3-blue w3-ripple");
-  divPlusButton.setAttribute("onClick", "addElementPanier(this);");
+  divPlusButton.setAttribute("onClick", "addElementInPanier(this);");
   divPlusButton.innerHTML = "+";
   // Assemblage
   var divAjustQte = document.createElement("div");
@@ -337,8 +305,8 @@ function createNewListElement(id, titre, auteur, image, prix, qte){
 
 
 // Décrémente un article du panier
-function removeElementPanier(element){
-  var id = element.parentElement.parentElement.id;  
+function removeElementInPanier(element){
+  var id = element.parentElement.parentElement.getAttribute("data-index");  
   var taille = panier.length;
   var article;
   // On ôte un article du panier (Tableau)
@@ -365,10 +333,12 @@ function removeElementPanier(element){
 }
 
 // Incrément un article du panier
-function addElementPanier(element){
-  var id = element.parentElement.parentElement.id;  
+function addElementInPanier(element){
+  
+  var id = element.parentElement.parentElement.getAttribute("data-index");  
   var taille = panier.length;
   var article;
+
   // On ôte un article du panier (Tableau)
   for(var i = 0 ; i < taille ; i++){
     article = panier[i];
@@ -393,8 +363,9 @@ function addElementPanier(element){
 // Supprime un article du panier
 function deleteElementPanier(element){
 
-  var id = element.parentElement.id;
+  var id = element.parentElement.getAttribute("data-index");
   var taille = panier.length;
+
   // On supprime l'élément du panier (Tableau)
   for(var i = 0 ; i < taille ; i++){
     if(panier[i].id == id){
@@ -407,6 +378,11 @@ function deleteElementPanier(element){
 
   // On rafraichi le calcul du total
   refreshSommePanier();
+
+  // Si le panier est vide, on affiche un message
+  if(panier.length < 1){
+    $("#panierModal>div>ul").append(getMsgPanierVide());
+  }
 }
 
 // Calcul le montant total du panier
@@ -414,12 +390,20 @@ function refreshSommePanier(){
   // TODO
 }
 
+// Renvoie un élément indiquant que le panier est vide
+function getMsgPanierVide(){
+    var element = document.createElement("h2");
+    element.setAttribute("class", "w3-center w3-padding");
+    element.innerHTML = "Votre panier est vide !";
+    return element;
+}
+
 // DEBUG
 function AlertPanier(){  
   var popo = "";
   var taille = panier.length;
   for(var i = 0 ; i < taille ; i++){
-    popo += panier[i].id;
+    popo += panier[i].id + "(" + panier[i].nombre + ")";
     if(i < taille - 1){
       popo += ", ";
     } 
@@ -427,179 +411,180 @@ function AlertPanier(){
   alert("panier = " + popo);
 }
 
-function pageInitializer(){
-	// On télécharge le fichier XML
-	downloadXmlFile();
-	
-	// On charge le fichier dans le tableau
-	// TEMP
-  //var xmlFile = "<?xml version='1.0'?><livres><livre id='1'><nom>Popo</nom><auteur>Bon Dylan</auteur><desc>Un super bouquin</desc><categorie>Sciences</categorie><image>popo.pnj</image><prix>19.99</prix><nouveaute>1</nouveaute></livre>" +
-  //                "<livre id='1'><nom>Gloup</nom><auteur>Garry</auteur><desc>Bof</desc><categorie>Vie</categorie><image>popo2.pnj</image><prix>12</prix><nouveaute>0</nouveaute></livre></livres>"
 
-  //xmlToArray(xmlFile);
-  
-  //alert("nb livres = " + livres.length);
+/* =========================================== */
+/* === TÉLÉCHARGEMENT ET TRAITEMENT DU XML === */
+/* =========================================== */
+{
+  function pageInitializer(){
+    // On télécharge le fichier XML
+    downloadXmlFile();
+  }
 
-  /*for(var i=0 ; i < livres.length ; i++){
-    alert(" livres = " + livres[i].affiche());
-  }*/
+  // Téléchargement du fichier de données (XML)
+  function downloadXmlFile() {
+    $.ajax({
+      url: 'Data/Livres.xml',
+      type: 'GET',
+      dataType: 'xml',
+      success: function(listeLivres){
+        xmlToArray(listeLivres);
+        afficheContenuPageLivres();
+      },
+      error: function(url){ alert('Data file not found!'); }
+    });
+  }
 
-  
+  // On charge les données dans le tableau
+  function xmlToArray(xmlText) {
 
-}
+    var listeLivre;
+    var id, titre, auteur, desc, prix, categorie, image, nouveaute;
+    var nbLivres, nbElements;
+    var pos = 0;    // Position dans le tableau
 
-// Téléchargement du fichier de données (XML)
-function downloadXmlFile() {
-  $.ajax({
-    url: 'Data/Livres.xml',
-    type: 'GET',
-    dataType: 'xml',
-    success: function(listeLivres){
-      xmlToArray(listeLivres);
-      afficheContenuPage();
-    },
-    error: function(url){ alert('Data file not found!'); }
-  });
-}
+    // On récupère tous les livres
+    listeLivre = xmlText.getElementsByTagName("livre");
 
+    // Nombre de livres
+    nbLivres = listeLivre.length;
 
-// On charge les données dans le tableau
-function xmlToArray(xmlText) {
+    // Nombre d'éléments par livre (Tous les livres ont le même nombre d'éléments !)
+    nbElements = listeLivre[0].childNodes.length;
 
-  var listeLivre;
-  var titre, auteur, desc, prix, categorie, image, nouveaute;
-  var nbLivres, nbElements;
-  var pos = 0;    // Position dans le tableau
-
-  // On récupère tous les livres
-  listeLivre = xmlText.getElementsByTagName("livre");
-
-  // Nombre de livres
-  nbLivres = listeLivre.length;
-
-  // Nombre d'éléments par livre (Tous les livres ont le même nombre d'éléments !)
-  nbElements = listeLivre[0].childNodes.length;
-
-
-  // DEBUG  
-  var txt;
-  var nomBalise, valeurBalise;
-  txt = "Liste :<br/>";
-  // DEBUG 
-
-  // Récupération des données
-  for (var i = 0; i < nbLivres; i++) {
-
-    // On récupère tous les champs 
-    titre = listeLivre[i].getElementsByTagName("titre")[0].firstChild.nodeValue;
-    auteur = listeLivre[i].getElementsByTagName("auteur")[0].firstChild.nodeValue;
-    desc = listeLivre[i].getElementsByTagName("desc")[0].firstChild.nodeValue;
-    prix = listeLivre[i].getElementsByTagName("prix")[0].firstChild.nodeValue;
-    categorie = listeLivre[i].getElementsByTagName("categorie")[0].firstChild.nodeValue;
-    image = listeLivre[i].getElementsByTagName("image")[0].firstChild.nodeValue;
-    nouveaute = listeLivre[i].getElementsByTagName("nouveaute")[0].firstChild.nodeValue;
-    
-    // On ajoute un livre au tableau
-    var livre = new Livre();
-    livre.Livre(
-      titre,
-      auteur,
-      desc,
-      prix,
-      categorie,
-      image,
-      nouveaute,
-    );
-    livres[pos++] = livre;
-    
-
-    // DEBUG : On parcours les éléments de chaque livre
-    for(j = 0 ; j < nbElements ; j++){
-      // On ignore les "Text"
-      if(listeLivre[i].childNodes[j].nodeType == 3) continue;
-      // On récupère les champs
-      nomBalise = listeLivre[i].childNodes[j].nodeName
-      valeurBalise = listeLivre[i].childNodes[j].firstChild.nodeValue
-      txt += nomBalise + " : " + valeurBalise + "<br/>";
-    }
-    txt+="<br/>";
+    // DEBUG  
+    /*var txt;
+    var nomBalise, valeurBalise;
+    txt = "Liste :<br/>";*/
     // DEBUG 
-  }
-  
-  document.getElementById("siteContent").innerHTML = txt;
-}
 
+    // Récupération des données
+    for (var i = 0; i < nbLivres; i++) {
 
-// Affichage de l'heure dans la page
-// Source : https://www.w3schools.com/js/tryit.asp?filename=tryjs_timing_clock
-function displayTime() {
-  var today = new Date();
-  var h = today.getHours();
-  var m = today.getMinutes();
-  var s = today.getSeconds();
-  m = checkTime(m);
-  s = checkTime(s);
-  document.getElementById('displayTime').innerHTML = h + ":" + m + ":" + s;
-  var t = setTimeout(displayTime, 500);
-}
-function checkTime(i) {
-  if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
-  return i;
-}
+      // On récupère tous les champs 
+      id = listeLivre[i].getAttribute("id");
+      titre = listeLivre[i].getElementsByTagName("titre")[0].firstChild.nodeValue;
+      auteur = listeLivre[i].getElementsByTagName("auteur")[0].firstChild.nodeValue;
+      desc = listeLivre[i].getElementsByTagName("desc")[0].firstChild.nodeValue;
+      prix = listeLivre[i].getElementsByTagName("prix")[0].firstChild.nodeValue;
+      categorie = listeLivre[i].getElementsByTagName("categorie")[0].firstChild.nodeValue;
+      image = listeLivre[i].getElementsByTagName("image")[0].firstChild.nodeValue;
+      nouveaute = listeLivre[i].getElementsByTagName("nouveaute")[0].firstChild.nodeValue;
+      
+      // On ajoute un livre au tableau
+      var livre = new Livre();
+      livre.Livre(
+        id,
+        titre,
+        auteur,
+        desc,
+        prix,
+        categorie,
+        image,
+        nouveaute,
+      );
+      livres[pos++] = livre;
 
-
- // Envoie du formulaire de contact (Simultation)
- function mySend(){
-  // Si le formulaire est bien rempli, on l'envoie ! (enfin, on le cache...)
-  if($("#contactModalForm").valid()){
-    document.getElementById('id01').style.display='none';
-  }
-}
-
-// Validation du formulaire
-$(function() {
-  $("#contactModalForm").validate({
-    rules: {
-      contactFormNom: {
-        required: true
-      },      
-      contactFormPrenom: {
-        required: true
-      },      
-      contactFormAddress: {
-        required: true
-      },
-      contactFormPhone: {
-        required: true,
-        regex: /^[0-9]{3}-[0-9]{3}-[0-9]{4}$/
-      }, 
-      contactFormEmail: {
-        required: true,
-        regex: /^(\w+\.)*\w+@(\w+\.)+[A-Za-z]+$/
+      // DEBUG : On parcours les éléments de chaque livre
+      /*for(j = 0 ; j < nbElements ; j++){
+        // On ignore les "Text"
+        if(listeLivre[i].childNodes[j].nodeType == 3) continue;
+        // On récupère les champs
+        nomBalise = listeLivre[i].childNodes[j].nodeName
+        valeurBalise = listeLivre[i].childNodes[j].firstChild.nodeValue
+        txt += nomBalise + " : " + valeurBalise + "<br/>";
       }
-    },
-    messages: {
-      contactFormNom: {
-        required: "Entrez votre nom"
-      },
-      contactFormPrenom: {
-        required: "Entrez votre prénom"
-      },
-      contactFormAddress: {
-        required: "Entrez votre adresse"
-      },
-      contactFormPhone: {
-        required: "Entrez un numéro de téléphone",
-        regex: "Veuillez respecter le format 123-456-7890"
-      },
-      contactFormEmail: {
-        required: "Entrez votre courriel",
-        regex: "Veuillez respecter le format pseudo@domaine.ca"
-      }
+      txt+="<br/>";*/
+      // DEBUG 
     }
+    // DEBUG 
+    //document.getElementById("siteContent").innerHTML = txt;
+  }
+}
+
+
+/* ============== */
+/* === DIVERS === */
+/* ============== */
+{
+  // Affichage de l'heure dans la page
+  // Source : https://www.w3schools.com/js/tryit.asp?filename=tryjs_timing_clock
+  function displayTime() {
+    var today = new Date();
+    var h = today.getHours();
+    var m = today.getMinutes();
+    var s = today.getSeconds();
+    m = checkTime(m);
+    s = checkTime(s);
+    document.getElementById('displayTime').innerHTML = h + ":" + m + ":" + s;
+    var t = setTimeout(displayTime, 500);
+  }
+  function checkTime(i) {
+    if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
+    return i;
+  }
+
+}
+
+
+
+/* ================== */
+/* === FORMULAIRE === */
+/* ================== */
+{
+  // Validation du formulaire
+  $(function() {
+    $("#contactModalForm").validate({
+      rules: {
+        contactFormNom: {
+          required: true
+        },      
+        contactFormPrenom: {
+          required: true
+        },      
+        contactFormAddress: {
+          required: true
+        },
+        contactFormPhone: {
+          required: true,
+          regex: /^[0-9]{3}-[0-9]{3}-[0-9]{4}$/
+        }, 
+        contactFormEmail: {
+          required: true,
+          regex: /^(\w+\.)*\w+@(\w+\.)+[A-Za-z]+$/
+        }
+      },
+      messages: {
+        contactFormNom: {
+          required: "Entrez votre nom"
+        },
+        contactFormPrenom: {
+          required: "Entrez votre prénom"
+        },
+        contactFormAddress: {
+          required: "Entrez votre adresse"
+        },
+        contactFormPhone: {
+          required: "Entrez un numéro de téléphone",
+          regex: "Veuillez respecter le format 123-456-7890"
+        },
+        contactFormEmail: {
+          required: "Entrez votre courriel",
+          regex: "Veuillez respecter le format pseudo@domaine.ca"
+        }
+      }
+    });
   });
-});
-// Validation Regex pour le formulaire
-$.validator.addMethod("regex", function(value, element, regexpr) {          
-  return regexpr.test(value);
-});
+  // Validation Regex pour le formulaire
+  $.validator.addMethod("regex", function(value, element, regexpr) {          
+    return regexpr.test(value);
+  });
+
+  // Envoie du formulaire de contact (Simultation)
+  function mySend(){
+    // Si le formulaire est bien rempli, on l'envoie ! (enfin, on le cache...)
+    if($("#contactModalForm").valid()){
+      document.getElementById('id01').style.display='none';
+    }
+  }
+}
