@@ -26,8 +26,7 @@ function afficheContenuPageLivres(filtre){
     // On affiche les livres de la catégorie demandé
     var listElements = getElementsLivres(filtre.id);
     $("#livresCard").append(listElements);
-  }
-
+  }  
 }
 
 // Construit et renvoie la liste des livres étant tagués "Nouveauté"
@@ -58,7 +57,7 @@ function getElementsLivres(categorie){
   return listeCard;
 }
 
-// Renvoie un élément Card contenant les informations d'un livre
+// Construit et renvoie un élément Card contenant les informations d'un livre
 function getCardElement(leLivre){
   var laCard = document.createElement("div");
   laCard.setAttribute("data-userid", leLivre.id); 
@@ -103,7 +102,6 @@ function getCardElement(leLivre){
   leCorps.appendChild(lAuteur);
   leCorps.appendChild(lePrix);
   leCorps.appendChild(leBtnDiv);
-
 
   laCard.appendChild(leHeader);
   laCard.appendChild(leCorps);
@@ -151,7 +149,7 @@ function refreshButtonPanier(){
 /* ===    PANIER     === */
 /* ===================== */
 
-// Affiche le contenu du panier
+// Affiche le contenu du panier (en le construisant)
 function displayPanier(){
 
   // S'il existe déjà, on le détruit
@@ -160,13 +158,16 @@ function displayPanier(){
   /**********************************************
       Header avec titre + bouton de fermeture
   ***********************************************/
+ // Titre
   var titre = document.createElement("h2");
   titre.innerHTML = "Mon Panier";
-  // Bouton
+  
+  // Bouton de fermeture
   var boutonFermeture = document.createElement("span");
   boutonFermeture.setAttribute("onClick", "document.getElementById('panierModal').style.display='none'");
-  boutonFermeture.setAttribute("class", "w3-button w3-display-topright");
+  boutonFermeture.setAttribute("class", "w3-button w3-display-topright w3-red w3-round header-close");
   boutonFermeture.innerHTML = "x";
+  
   // Header
   var modalHeader = document.createElement("header");
   modalHeader.setAttribute("class", "w3-container w3-teal");
@@ -176,9 +177,11 @@ function displayPanier(){
   /**********************************************
       Liste des éléments
   ***********************************************/
+  // Liste principale
   var listeUl = document.createElement("ul");
   listeUl.setAttribute("class", "w3-ul");
   
+  // Éléments
   var nblements = panier.length;
   if(nblements > 0){
     // On construit chaque élément
@@ -200,12 +203,37 @@ function displayPanier(){
   }
 
   /**********************************************
+      Partie Somme des achats
+  ***********************************************/
+  var sumZone = createSumZone();
+
+  /**********************************************
+      Footer avec le bouton "Payer"
+  ***********************************************/ 
+  var boutonPayer = document.createElement("button");
+  boutonPayer.setAttribute("id", "panierBoutonPayer");
+  boutonPayer.setAttribute("class", "w3-button w3-round-large w3-margin w3-white w3-ripple");
+  boutonPayer.setAttribute("onClick", "payerPanier();");  
+  boutonPayer.innerHTML = "PAYER";
+  var footer = document.createElement("footer");
+  footer.setAttribute("class", "w3-center w3-teal");
+  footer.appendChild(boutonPayer);
+
+  /**********************************************
       div Modal conteneur
   ***********************************************/
+  // Séparateur
+  var separator = document.createElement("div");
+  separator.setAttribute("class", "line-separator");
+
+  // Div de conteneur
   var divModalContent = document.createElement("div");
   divModalContent.setAttribute("class", "w3-modal-content w3-card-4 w3-animate-top");
-  divModalContent.appendChild(modalHeader);
-  divModalContent.appendChild(listeUl);
+  divModalContent.appendChild(modalHeader); // L'entête
+  divModalContent.appendChild(listeUl);     // La liste des éléments
+  divModalContent.appendChild(separator);   // Séparateur
+  divModalContent.appendChild(sumZone);     // Le prix final
+  divModalContent.appendChild(footer);      // Bouton Payer
 
   /**********************************************
       Div principal
@@ -220,9 +248,12 @@ function displayPanier(){
 
   // Affichage
   document.getElementById('panierModal').style.display='block';
+
+  // Total du panier
+  refreshSommePanier();
 }
 
-// Renvoie un élément de la liste des achats du panier
+// Construit et renvoie un élément de la liste des achats du panier
 function createNewListElement(id, titre, auteur, image, prix, qte){
   // L'élément
   var element = document.createElement("li");
@@ -303,6 +334,96 @@ function createNewListElement(id, titre, auteur, image, prix, qte){
   return element;
 }
 
+// Construit et renvoie la zone des montants du panier
+function createSumZone(){
+
+  // Sous-Total : label
+  var spanSousTotal = document.createElement("span");
+  spanSousTotal.setAttribute("class", "w3-bar-item w3-large");
+  spanSousTotal.innerHTML = "Sous-total";
+  // Sous-Total : signe de Dollar
+  var dollarSignSousTotal = document.createElement("span");
+  dollarSignSousTotal.setAttribute("class", "w3-bar-item w3-large w3-right dollar-sign");
+  dollarSignSousTotal.innerHTML = "$";
+  // Sous-Total : prix 
+  var spanSousTotalPrix = document.createElement("span");
+  spanSousTotalPrix.setAttribute("id", "panierSousTotal");
+  spanSousTotalPrix.setAttribute("class", "w3-bar-item w3-large w3-right");
+  // Sous-Total
+  var divSousTotal = document.createElement("div");
+  divSousTotal.setAttribute("class", "w3-bar");
+  divSousTotal.appendChild(spanSousTotal);
+  divSousTotal.appendChild(dollarSignSousTotal);  // Attention : Mettre avant le prix ! (à cause du w3-right)
+  divSousTotal.appendChild(spanSousTotalPrix);
+
+  // Taxes : signe de Dollar
+  var dollarSignTaxe = document.createElement("span");
+  dollarSignTaxe.setAttribute("class", "w3-bar-item w3-right dollar-sign");
+  dollarSignTaxe.innerHTML = "$";
+
+  // Taxes : TPS
+  var spanTPS = document.createElement("span");
+  spanTPS.setAttribute("class", "w3-bar-item w3-margin-left");
+  spanTPS.innerHTML = "TPS :";
+  var spanTPSPrix = document.createElement("span");
+  spanTPSPrix.setAttribute("id", "panierTPS");
+  spanTPSPrix.setAttribute("class", "w3-bar-item w3-right");
+  var divTPS= document.createElement("div");
+  divTPS.setAttribute("class", "w3-bar");
+  divTPS.appendChild(spanTPS);
+  divTPS.appendChild(dollarSignTaxe);
+  divTPS.appendChild(spanTPSPrix);
+
+  // Taxes : TVQ  
+  var spanTVQ = document.createElement("span");
+  spanTVQ.setAttribute("class", "w3-bar-item w3-margin-left");
+  spanTVQ.innerHTML = "TVQ :";
+  var spanTVQPrix = document.createElement("span");
+  spanTVQPrix.setAttribute("id", "panierTVQ");
+  spanTVQPrix.setAttribute("class", "w3-bar-item w3-right");
+  var divTVQ= document.createElement("div");
+  divTVQ.setAttribute("class", "w3-bar");
+  divTVQ.appendChild(spanTVQ);
+  divTVQ.appendChild(dollarSignTaxe.cloneNode(true)); // On le dupplique
+  divTVQ.appendChild(spanTVQPrix);
+
+  // Total
+  var spanTotal = document.createElement("span");
+  spanTotal.setAttribute("class", "w3-bar-item w3-xlarge");
+  spanTotal.innerHTML = "TOTAL";
+  var dollarSignTotal = document.createElement("span");
+  dollarSignTotal.setAttribute("class", "w3-bar-item w3-right w3-xlarge dollar-sign");
+  dollarSignTotal.innerHTML = "$";
+  var spanTotalPrix = document.createElement("span");
+  spanTotalPrix.setAttribute("id", "panierTotal");
+  spanTotalPrix.setAttribute("class", "w3-bar-item w3-xlarge w3-right");
+  var divTotal = document.createElement("div");
+  divTotal.setAttribute("class", "w3-bar");
+  divTotal.appendChild(spanTotal);
+  divTotal.appendChild(dollarSignTotal);
+  divTotal.appendChild(spanTotalPrix);
+
+  // Séparateur  
+  var separator = document.createElement("div");
+  separator.setAttribute("class", "w3-margin line-separator");
+
+  // Div Card  
+  var divCard = document.createElement("div");
+  divCard.setAttribute("class", "w3-container w3-card-4 w3-margin white-bgd");
+  divCard.appendChild(divSousTotal);
+  divCard.appendChild(separator);
+  divCard.appendChild(divTPS);
+  divCard.appendChild(divTVQ);
+  divCard.appendChild(separator.cloneNode(true));
+  divCard.appendChild(divTotal);
+
+  // Div conteneur
+  var divMain = document.createElement("div");
+  divMain.setAttribute("class", "w3-container light-teal-bgd");
+  divMain.appendChild(divCard);
+
+  return divMain;
+}
 
 // Décrémente un article du panier
 function removeElementInPanier(element){
@@ -388,9 +509,27 @@ function deleteElementPanier(element){
 // Calcul le montant total du panier
 function refreshSommePanier(){
   // TODO
+  $("#panierSousTotal").text("0.00");
+  $("#panierTPS").text("0.00");
+  $("#panierTVQ").text("0.00");
+  $("#panierTotal").text("1.00");
+
+  var montantTotal = ($("#panierTotal").text());
+
+  if( montantTotal > 0){
+    $("#panierBoutonPayer").show();
+  }else{
+    $("#panierBoutonPayer").hide();
+  }
+  
 }
 
-// Renvoie un élément indiquant que le panier est vide
+function payerPanier(){
+  // TODO
+  alert("Par ici la monnaie !!");
+}
+
+// Construit et renvoie un élément indiquant que le panier est vide
 function getMsgPanierVide(){
     var element = document.createElement("h2");
     element.setAttribute("class", "w3-center w3-padding");
@@ -424,14 +563,14 @@ function AlertPanier(){
   // Téléchargement du fichier de données (XML)
   function downloadXmlFile() {
     $.ajax({
-      url: 'Data/Livres.xml',
+      url: 'data/Livres.xml',
       type: 'GET',
       dataType: 'xml',
       success: function(listeLivres){
         xmlToArray(listeLivres);
         afficheContenuPageLivres();
       },
-      error: function(url){ alert('Data file not found!'); }
+      error: function(url){ alert('Impossible de télécharger les données. Veuillez essayer plus tard...'); }
     });
   }
 
