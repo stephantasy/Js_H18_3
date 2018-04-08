@@ -2,9 +2,17 @@
 /* IFT1142 - TP3 */
 
 
-
 var livres = [];  // Tableau des livres
-var panier = [];  // Tableau des articles dans le panier
+var panier = [
+  {"id":1,"nombre":2},
+  {"id":12,"nombre":1},
+  {"id":5,"nombre":5}
+];  // Tableau des articles dans le panier
+
+
+// Constantes
+var TAXE_TPS = 0.09975;
+var TAXE_TVQ = 0.05;
 
 
 /* ===================== */
@@ -19,13 +27,42 @@ function afficheContenuPageLivres(filtre){
 
   // Pas de paramètre
   if (typeof filtre == 'undefined'){
+
     // On affiche les nouveautés
     var listElements = getElementsLivresNouveautes();
     $("#livresCard").append(listElements);
+
+    // On indique ce qui est affiché
+    $("#currentDisplay").text("Les Nouveautés");
+
   }else{    
     // On affiche les livres de la catégorie demandé
     var listElements = getElementsLivres(filtre.id);
     $("#livresCard").append(listElements);
+    
+    // On indique ce qui est affiché
+    var titre;
+    switch(filtre.id.toLowerCase()){
+      case "roman":
+        titre = "Nos Romans";
+        break;
+      case "sciences":
+        titre = "Nos Livres de Sciences";
+        break;
+      case "histoire":
+        titre = "Nos Livres d'Histoire";
+        break;
+      case "bdmanga":
+        titre = "Nos BD et Mangas";
+        break;
+      case "sciencefiction":
+        titre = "Nos Livres de Science-Fiction";
+        break;
+      default:
+        titre = "Tous nos Livres";
+        break;
+    }
+    $("#currentDisplay").text(titre);
   }  
 }
 
@@ -123,7 +160,6 @@ function addOneToPanier(element){
       // On ajoute
       article.nombre++;
       found = true;
-      alert("Found!");
       break;
     }
   }
@@ -142,8 +178,13 @@ function addOneToPanier(element){
 
 // On affiche le nombre d'article dans le panier
 function refreshButtonPanier(){
-  //TODO
+  var nbArticle = 0;
+  panier.forEach(p => {
+    nbArticle += p.nombre;
+  });
+  $("#panierBadge").text(nbArticle);
 }
+
 
 /* ===================== */
 /* ===    PANIER     === */
@@ -205,7 +246,9 @@ function displayPanier(){
   /**********************************************
       Partie Somme des achats
   ***********************************************/
-  var sumZone = createSumZone();
+  var sumZone = document.createElement("div");
+  sumZone.setAttribute("class", "w3-container light-teal-bgd w3-card-4");
+  sumZone.appendChild(createSumZone());
 
   /**********************************************
       Footer avec le bouton "Payer"
@@ -250,7 +293,10 @@ function displayPanier(){
   document.getElementById('panierModal').style.display='block';
 
   // Total du panier
-  refreshSommePanier();
+  refreshSomme();
+
+  // Si le panier est vide, on cache le bouton "Payer", sinon on l'affiche
+  displayButtonPayer();
 }
 
 // Construit et renvoie un élément de la liste des achats du panier
@@ -409,7 +455,7 @@ function createSumZone(){
 
   // Div Card  
   var divCard = document.createElement("div");
-  divCard.setAttribute("class", "w3-container w3-card-4 w3-margin white-bgd");
+  divCard.setAttribute("class", "w3-container w3-margin white-bgd");
   divCard.appendChild(divSousTotal);
   divCard.appendChild(separator);
   divCard.appendChild(divTPS);
@@ -417,15 +463,10 @@ function createSumZone(){
   divCard.appendChild(separator.cloneNode(true));
   divCard.appendChild(divTotal);
 
-  // Div conteneur
-  var divMain = document.createElement("div");
-  divMain.setAttribute("class", "w3-container light-teal-bgd");
-  divMain.appendChild(divCard);
-
-  return divMain;
+  return divCard;
 }
 
-// Décrémente un article du panier
+// Décrémente un article du panier avec le bouton [-]
 function removeElementInPanier(element){
   var id = element.parentElement.parentElement.getAttribute("data-index");  
   var taille = panier.length;
@@ -446,14 +487,17 @@ function removeElementInPanier(element){
         $("#elPrice" + id).text((parseFloat(livres[article.id].prix.replace(',','.'))*article.nombre).toFixed(2) + "$");
 
         // On rafraichi le calcul du total
-        refreshSommePanier();
+        refreshSomme();
       }
       break;  // Inutile de continuer
     }
   }
+  
+  // Nb article dans le panier
+  refreshButtonPanier();
 }
 
-// Incrément un article du panier
+// Incrémente un article du panier avec le bouton [+]
 function addElementInPanier(element){
   
   var id = element.parentElement.parentElement.getAttribute("data-index");  
@@ -474,14 +518,17 @@ function addElementInPanier(element){
       $("#elPrice" + id).text((parseFloat(livres[article.id].prix.replace(',','.'))*article.nombre).toFixed(2) + "$");
 
       // On rafraichi le calcul du total
-      refreshSommePanier();
+      refreshSomme();
       
       break;  // Inutile de continuer
     }
   }
+  
+  // Nb article dans le panier
+  refreshButtonPanier();
 }
 
-// Supprime un article du panier
+// Supprime un article du panier avec le bouton [X]
 function deleteElementPanier(element){
 
   var id = element.parentElement.getAttribute("data-index");
@@ -498,43 +545,75 @@ function deleteElementPanier(element){
   element.parentElement.parentElement.removeChild(element.parentElement);
 
   // On rafraichi le calcul du total
-  refreshSommePanier();
+  refreshSomme();
 
   // Si le panier est vide, on affiche un message
   if(panier.length < 1){
     $("#panierModal>div>ul").append(getMsgPanierVide());
   }
+
+  // Faut-il toujours afficher le bouton Payer ?
+  displayButtonPayer();
+
+  // Nb article dans le panier
+  refreshButtonPanier();
 }
 
 // Calcul le montant total du panier
-function refreshSommePanier(){
-  // TODO
-  $("#panierSousTotal").text("0.00");
-  $("#panierTPS").text("0.00");
-  $("#panierTVQ").text("0.00");
-  $("#panierTotal").text("1.00");
+function refreshSomme(){
+  // Sous total
+  var sousTotal = 0;
+  for(var p in panier){
+    sousTotal += parseFloat(livres[panier[p].id].prix.replace(',','.'))*panier[p].nombre;
+  }
+  // Taxes
+  var tps = sousTotal * TAXE_TPS;
+  var tvq = sousTotal * TAXE_TVQ;
+  // total
+  var total = sousTotal + tps + tvq;
+  
+  // Affectation
+  $("#panierSousTotal").text(sousTotal.toFixed(2));
+  $("#panierTPS").text(tps.toFixed(2));
+  $("#panierTVQ").text(tvq.toFixed(2));
+  $("#panierTotal").text(total.toFixed(2));
+}
 
+// Construit et renvoie un élément indiquant que le panier est vide
+function getMsgPanierVide(){
+  var element = document.createElement("h2");
+  element.setAttribute("class", "w3-center w3-padding");
+  element.innerHTML = "Votre panier est vide !";
+  return element;
+}
+
+// Affiche ou non le bouton Payer du panier en fonction du montant total
+function displayButtonPayer(){
   var montantTotal = ($("#panierTotal").text());
-
   if( montantTotal > 0){
     $("#panierBoutonPayer").show();
   }else{
     $("#panierBoutonPayer").hide();
   }
-  
 }
 
+// Action sur le bouton Payer du panier
 function payerPanier(){
-  // TODO
-  alert("Par ici la monnaie !!");
-}
+  
+  // On cache le panier
+  document.getElementById('panierModal').style.display='none';
 
-// Construit et renvoie un élément indiquant que le panier est vide
-function getMsgPanierVide(){
-    var element = document.createElement("h2");
-    element.setAttribute("class", "w3-center w3-padding");
-    element.innerHTML = "Votre panier est vide !";
-    return element;
+  // On détruit le contenu du panier (car on va réutiliser la Somme, et on ne veut pas l'avoir 2 fois !)
+  $("#panierModal").remove();
+
+  // On affiche la facture
+  displayFacture();
+
+  // On vide le panier
+  panier.length = 0;
+  
+  // Nb article dans le panier
+  refreshButtonPanier();
 }
 
 // DEBUG
@@ -551,11 +630,79 @@ function AlertPanier(){
 }
 
 
+// Construit et affiche la facture
+function displayFacture(){
+
+  // Si elle existe déjà, on la détruit
+  $("#factureDetail").empty();
+  $("#factureSomme").empty();
+
+  // Titre
+  var titre = document.createElement("h2");
+  titre.setAttribute("class", "w3-center");
+  titre.innerHTML=  "La Livrairie vous remercie !";
+
+  // On crée les éléments correspondants aux achats
+  for(var p in panier){
+    $("#factureDetail").append(createFactureElement(panier[p]));
+  }
+
+  // On crée la zone somme
+  var somme = createSumZone(); 
+  
+  // Ajout de la somme
+  var list = $("#factureSomme").append(somme);
+
+
+  // On affiche
+  document.getElementById("factureModal").style.display='block';
+
+  // On remplie les montants de la somme
+  refreshSomme();
+}
+
+// Construit et renvoie un élément de la liste de la facture
+function createFactureElement(article){
+  // Titre
+  var titre = document.createElement("span");
+  titre.innerHTML = livres[article.id].titre;
+
+  // Prix total
+  var total = document.createElement("span");
+  total.setAttribute("class", "w3-right");
+  var prixTotal = (parseFloat(livres[article.id].prix.replace(',','.'))*article.nombre).toFixed(2) + "$";
+  total.innerHTML = "<b>" + prixTotal + "</b>";
+
+  // Prix unitaire et nombre
+  var unitaire = document.createElement("span");
+  unitaire.setAttribute("class", "w3-right");
+  unitaire.setAttribute("style", "margin-right:100px;");
+  unitaire.innerHTML = article.nombre +  " x " + livres[article.id].prix + "$";
+
+  // Élément
+  var element = document.createElement("li");
+  element.setAttribute("class", "w3-margin");
+  element.appendChild(titre);
+  element.appendChild(total);
+  element.appendChild(unitaire);
+
+  return element;
+}
+
+// Imprime la facture (non implémentée pour le TP)
+function imprimerFacture(){
+  // Impresssion de la facture
+  document.getElementById('factureModal').style.display='none';
+}
+
 /* =========================================== */
 /* === TÉLÉCHARGEMENT ET TRAITEMENT DU XML === */
 /* =========================================== */
 {
   function pageInitializer(){
+    // Nb article dans le panier
+    refreshButtonPanier();
+
     // On télécharge le fichier XML
     downloadXmlFile();
   }
@@ -591,12 +738,6 @@ function AlertPanier(){
     // Nombre d'éléments par livre (Tous les livres ont le même nombre d'éléments !)
     nbElements = listeLivre[0].childNodes.length;
 
-    // DEBUG  
-    /*var txt;
-    var nomBalise, valeurBalise;
-    txt = "Liste :<br/>";*/
-    // DEBUG 
-
     // Récupération des données
     for (var i = 0; i < nbLivres; i++) {
 
@@ -623,21 +764,7 @@ function AlertPanier(){
         nouveaute,
       );
       livres[pos++] = livre;
-
-      // DEBUG : On parcours les éléments de chaque livre
-      /*for(j = 0 ; j < nbElements ; j++){
-        // On ignore les "Text"
-        if(listeLivre[i].childNodes[j].nodeType == 3) continue;
-        // On récupère les champs
-        nomBalise = listeLivre[i].childNodes[j].nodeName
-        valeurBalise = listeLivre[i].childNodes[j].firstChild.nodeValue
-        txt += nomBalise + " : " + valeurBalise + "<br/>";
-      }
-      txt+="<br/>";*/
-      // DEBUG 
     }
-    // DEBUG 
-    //document.getElementById("siteContent").innerHTML = txt;
   }
 }
 
@@ -665,6 +792,16 @@ function AlertPanier(){
 
 }
 
+// Script to open and close sidebar
+function w3_open() {
+  document.getElementById("mySidebar").style.display = "block";
+  document.getElementById("myOverlay").style.display = "block";
+}
+
+function w3_close() {
+  document.getElementById("mySidebar").style.display = "none";
+  document.getElementById("myOverlay").style.display = "none";
+}
 
 
 /* ================== */
@@ -720,10 +857,11 @@ function AlertPanier(){
   });
 
   // Envoie du formulaire de contact (Simultation)
-  function mySend(){
+  function sendContactForm(){
     // Si le formulaire est bien rempli, on l'envoie ! (enfin, on le cache...)
     if($("#contactModalForm").valid()){
       document.getElementById('id01').style.display='none';
     }
+    return false;
   }
 }

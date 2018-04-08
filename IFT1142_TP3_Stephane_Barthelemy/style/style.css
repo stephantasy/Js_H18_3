@@ -5,19 +5,21 @@ html{
   height: 100%;
 }
 
-*
-{ margin: 0;
-  padding: 0;
+*{ margin: 0px;
+  padding: 0px;
 }
 
 body{
-  /*font: normal .80em 'trebuchet ms', arial, sans-serif;*/
-  background: #F0EFE2;
-  /*background-color: rgb(170, 163, 58);*/
+  /*background-color: #F0EFE2;*/
   color: #777;
 }
 
 
+/* Pour afficher le carousel sur toute la largeur */
+.carousel-inner img {
+  width: 100%;
+  height: 100%;
+}
 
 /* CARD */
 .zoom {
@@ -32,6 +34,8 @@ body{
   margin: 20px;
   display: inline-block;
 }
+
+/* DIVERS */
 
 /* Bouton de fermeture */
 .header-close{
@@ -57,4 +61,10 @@ body{
 /* Décalage du signe Dollar */
 .dollar-sign{
   margin-left:-25px;
+}
+
+/* Footer */
+#footer a, #footer span{
+  font-weight: bold;
+  color:gold;
 }
