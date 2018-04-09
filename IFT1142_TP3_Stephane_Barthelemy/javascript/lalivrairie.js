@@ -3,12 +3,13 @@
 
 
 var livres = [];  // Tableau des livres
-var panier = [
+var panier = [  // DEBUG
   {"id":1,"nombre":2},
   {"id":12,"nombre":1},
   {"id":5,"nombre":5}
 ];  // Tableau des articles dans le panier
 
+var coordonnees = {};//{    // Coordonnées de la personne
 
 // Constantes
 var TAXE_TPS = 0.09975;
@@ -96,13 +97,14 @@ function getElementsLivres(categorie){
 
 // Construit et renvoie un élément Card contenant les informations d'un livre
 function getCardElement(leLivre){
+  // Card : Élément de base contenant toutes les informations
   var laCard = document.createElement("div");
   laCard.setAttribute("data-userid", leLivre.id); 
   laCard.setAttribute("class", "w3-card-4 w3-white zoom card"); 
   laCard.setAttribute("style", "width:250px"); 
   
+  // En-tête de la Card
   var leHeader = document.createElement("div");
-  //leHeader.setAttribute("class", "w3-container w3-red w3-center");  
   var leHeaderText = document.createElement("h4");
   // Est-ce une nouveauté ?
   if(leLivre.nouveaute == 1){
@@ -113,36 +115,41 @@ function getCardElement(leLivre){
   }
   leHeader.appendChild(leHeaderText);
 
-  
+  // Corps de la Card
   var leCorps = document.createElement("div");
   leCorps.setAttribute("class", "w3-container w3-center"); 
   
+  // Image du livre
   var lImage = document.createElement("img");  
   lImage.setAttribute("src", "images/" + leLivre.image); 
   lImage.setAttribute("alt", "Image Livre"); 
   lImage.setAttribute("class", "w3-card-4"); 
   lImage.setAttribute("style", "height:200px");
+
+  // Npm de l'auteur
   var lAuteur = document.createElement("h5");
   lAuteur.innerHTML = leLivre.auteur;
   var lePrix = document.createElement("h6");
   lePrix.innerHTML = (parseFloat(leLivre.prix.replace(',','.'))).toFixed(2) + "$";
   
+  // Bouton "Ajouter"
   var leBtnDiv = document.createElement("div");
   leBtnDiv.setAttribute("class", "w3-section"); 
   var leBtn = document.createElement("button");
   leBtn.setAttribute("class", "w3-button w3-green"); 
-  leBtn.setAttribute("onClick", "addOneToPanier(this);"); 
+  leBtn.setAttribute("onClick", "addOneToPanier(this); dipslaySnackbar('Ajouté au panier !');"); 
   leBtn.innerHTML = "Ajouter";
   leBtnDiv.appendChild(leBtn);
 
+  // Construction
   leCorps.appendChild(lImage);
   leCorps.appendChild(lAuteur);
   leCorps.appendChild(lePrix);
   leCorps.appendChild(leBtnDiv);
-
   laCard.appendChild(leHeader);
   laCard.appendChild(leCorps);
 
+  // On renvoie la Card
   return laCard;
 }
 
@@ -251,16 +258,23 @@ function displayPanier(){
   sumZone.appendChild(createSumZone());
 
   /**********************************************
-      Footer avec le bouton "Payer"
+      Footer avec le bouton "Payer" et "Magasiner"
   ***********************************************/ 
   var boutonPayer = document.createElement("button");
   boutonPayer.setAttribute("id", "panierBoutonPayer");
   boutonPayer.setAttribute("class", "w3-button w3-round-large w3-margin w3-white w3-ripple");
   boutonPayer.setAttribute("onClick", "payerPanier();");  
-  boutonPayer.innerHTML = "PAYER";
+  boutonPayer.innerHTML = "Payer";
+  var boutonContinuer = document.createElement("button");
+  boutonContinuer.setAttribute("id", "panierBoutonContinuer");
+  boutonContinuer.setAttribute("class", "w3-button w3-round-large w3-margin w3-white w3-ripple");
+  boutonContinuer.setAttribute("onClick", "document.getElementById('panierModal').style.display='none'");  
+  boutonContinuer.innerHTML = "Magasiner";
   var footer = document.createElement("footer");
   footer.setAttribute("class", "w3-center w3-teal");
   footer.appendChild(boutonPayer);
+  footer.appendChild(boutonContinuer);
+
 
   /**********************************************
       div Modal conteneur
@@ -616,7 +630,7 @@ function payerPanier(){
   refreshButtonPanier();
 }
 
-// DEBUG
+// DEBUG : Affiche le contenu du tableau "panier"
 function AlertPanier(){  
   var popo = "";
   var taille = panier.length;
@@ -630,6 +644,10 @@ function AlertPanier(){
 }
 
 
+/* ====================== */
+/* ===    FACTURE     === */
+/* ====================== */
+
 // Construit et affiche la facture
 function displayFacture(){
 
@@ -641,6 +659,14 @@ function displayFacture(){
   var titre = document.createElement("h2");
   titre.setAttribute("class", "w3-center");
   titre.innerHTML=  "La Livrairie vous remercie !";
+
+  // Si la personne a fournie ses coordonnées, on les affiches (Pas de vérification demandée dans le TP)
+  if(coordonnees.nom){
+    $("#factureCoord").show();
+    $("#factureNom").text("Nom : " + coordonnees.nom);
+    $("#facturePrenom").text("Prénom : " + coordonnees.prenom);
+    $("#factureAdresse").text("Adresse : " + coordonnees.address);
+  }
 
   // On crée les éléments correspondants aux achats
   for(var p in panier){
@@ -691,9 +717,10 @@ function createFactureElement(article){
 
 // Imprime la facture (non implémentée pour le TP)
 function imprimerFacture(){
-  // Impresssion de la facture
+  // Impresssion de la facture (Simulation)
   document.getElementById('factureModal').style.display='none';
 }
+
 
 /* =========================================== */
 /* === TÉLÉCHARGEMENT ET TRAITEMENT DU XML === */
@@ -772,24 +799,27 @@ function imprimerFacture(){
 /* ============== */
 /* === DIVERS === */
 /* ============== */
-{
-  // Affichage de l'heure dans la page
-  // Source : https://www.w3schools.com/js/tryit.asp?filename=tryjs_timing_clock
-  function displayTime() {
-    var today = new Date();
-    var h = today.getHours();
-    var m = today.getMinutes();
-    var s = today.getSeconds();
-    m = checkTime(m);
-    s = checkTime(s);
-    document.getElementById('displayTime').innerHTML = h + ":" + m + ":" + s;
-    var t = setTimeout(displayTime, 500);
-  }
-  function checkTime(i) {
-    if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
-    return i;
-  }
 
+// Affichage de la date et de l'heure dans la page
+// Source : https://www.w3schools.com/js/tryit.asp?filename=tryjs_timing_clock
+function displayTime() {
+  var today = new Date();
+  var d = today.getDay();
+  var m = today.getMonth();
+  var y = today.getFullYear();
+  var h = today.getHours();
+  var mm = today.getMinutes();
+  var s = today.getSeconds();
+  d = checkTime(d);
+  m = checkTime(m);
+  mm = checkTime(mm);
+  s = checkTime(s);
+  document.getElementById('displayTime').innerHTML = d + "/" + m + "/" + y + " " + h + ":" + mm + ":" + s;
+  var t = setTimeout(displayTime, 500);
+}
+function checkTime(i) {
+  if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
+  return i;
 }
 
 // Script to open and close sidebar
@@ -797,17 +827,27 @@ function w3_open() {
   document.getElementById("mySidebar").style.display = "block";
   document.getElementById("myOverlay").style.display = "block";
 }
-
 function w3_close() {
   document.getElementById("mySidebar").style.display = "none";
   document.getElementById("myOverlay").style.display = "none";
+}
+
+// Apparition de la Snackbar
+function dipslaySnackbar(msg) {
+  var x = document.getElementById("snackbar");
+  x.innerHTML = msg;
+  x.className = "show";
+  setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
 }
 
 
 /* ================== */
 /* === FORMULAIRE === */
 /* ================== */
-{
+
+// Fonctions JQuery
+$(document).ready(function() {
+  
   // Validation du formulaire
   $(function() {
     $("#contactModalForm").validate({
@@ -855,13 +895,39 @@ function w3_close() {
   $.validator.addMethod("regex", function(value, element, regexpr) {          
     return regexpr.test(value);
   });
-
+  
   // Envoie du formulaire de contact (Simultation)
-  function sendContactForm(){
-    // Si le formulaire est bien rempli, on l'envoie ! (enfin, on le cache...)
+  $("#submitButtonContactForm").click(function(){
+
+    // Si le formulaire est bien rempli, on l'envoie !
     if($("#contactModalForm").valid()){
-      document.getElementById('id01').style.display='none';
+      // On mémorise les informations
+      coordonnees.nom = $("#contactFormNom").val();
+      coordonnees.prenom = $("#contactFormPrenom").val();
+      coordonnees.address = $("#contactFormAddress").val();
+      coordonnees.phone = $("#contactFormPhone").val();
+      coordonnees.mail = $("#contactFormEmail").val();      
+
+      // On envoi le formulaire
+      var url = "path/to/myscript.php"; // the script where you handle the form input.
+      $.ajax({
+        type: "POST",
+        url: url,
+        data: $("#contactModalForm").serialize(), // serializes the form's elements.
+        success: function(data)
+        {
+          // Simulation
+        }
+      });
+      
+      // Simulation : On cache le formulaire
+      $("#contactModal").hide();
     }
-    return false;
-  }
-}
+    return false; // avoid to execute the actual submit of the form.
+  });
+
+}); //Fonctions JQuery
+
+
+// DEBUG
+//alert("PAGE RELOADÉE !!");

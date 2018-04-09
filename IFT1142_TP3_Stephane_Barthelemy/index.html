@@ -38,7 +38,7 @@
       <a href="#" onclick="w3_close()" class="w3-hide-large w3-right w3-jumbo w3-padding w3-hover-text-theme" title="close menu">
         <i class="fa fa-remove"></i>
       </a>
-      <img src="images/logo.png" style="width:45%;" class="w3-round"><br><br>
+      <img src="images/logo.jpg" style="width:100%;" class="w3-round"><br><br>
       <h4><b>La Livrairie !</b></h4>
       <p class="w3-text-grey"><b>Avec vous depuis 2018</b></p>
     </div>
@@ -75,7 +75,7 @@
     <div class="w3-bar w3-theme-dark">
 
       <!-- HEURE -->
-      <div class="w3-bar-item  w3-margin" style="height:100%;"><i class="fa fa-clock-o w3-margin-right"></i><span id="displayTime"></span></div>
+      <div class="w3-bar-item w3-large w3-margin" style="height:100%;"><i class="fa fa-clock-o w3-margin-right"></i><span id="displayTime"></span></div>
 
       <!-- BOUTON NOUVEAUTÉ -->
       <button onclick="afficheContenuPageLivres()" class="w3-bar-item w3-button w3-large w3-hover-theme w3-margin w3-text-theme"><i class="fa fa-diamond w3-margin-right"></i>Nouveauté !</button>
@@ -130,6 +130,15 @@
               <!-- Partie Titre -->
               <div id="factureZoneTitre" class="w3-container w3-margin">
                 <h2 class="w3-center">La Livrairie vous remercie !</h2><br>
+                <!-- Si on a les coordonées, on les affiches -->
+                <div id="factureCoord" style="display: none;">
+                  <h4 style="text-decoration: underline;">Émise à : </h4>
+                  <div class="w3-container w3-margin">
+                    <span id="factureNom"></span><br>
+                    <span id="facturePrenom"></span><br>
+                    <span id="factureAdresse"></span>
+                </div>
+                </div>                
                 <h4 style="text-decoration: underline;">Détail de la facture : </h4>
               </div>
 
@@ -185,10 +194,11 @@
       <h2 id="currentDisplay"></h2>
     </div> 
 
-
     <!-- CARD DES LIVRES -->
     <div id="livresCard" class="w3-container"></div>
 
+    <!-- SNACKBAR -->
+    <div id="snackbar"></div>
 
     <!-- ABOUT -->
     <div id="about" class="w3-theme-l1" style="padding-bottom:16px;">
@@ -225,7 +235,7 @@
         </header>
         
         <div class="w3-container">
-          <form action="#" onSubmit="return sendContactForm();" class="w3-container w3-card-4 w3-light-grey w3-text-blue w3-margin" id="contactModalForm">
+          <form action="" method="post" onSubmit="return false" id="contactModalForm" class="w3-container w3-card-4 w3-light-grey w3-text-blue w3-margin">
             <!-- Nom -->
             <div class="w3-row w3-section">
               <div class="w3-col" style="width:50px"><i class="w3-xxlarge fa fa-user"></i></div>
@@ -263,7 +273,7 @@
               </div>
               <!-- Bouton envoyer -->
               <p class="w3-center">
-                <button class="w3-button w3-round-large w3-section w3-blue w3-ripple">Envoyer</button>
+                <button id="submitButtonContactForm" class="w3-button w3-round-large w3-section w3-blue w3-ripple">Envoyer</button>
               </p>
           </form>
         </div>
