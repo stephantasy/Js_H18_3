@@ -3,11 +3,7 @@
 
 
 var livres = [];  // Tableau des livres
-var panier = [  // DEBUG
-  {"id":1,"nombre":2},
-  {"id":12,"nombre":1},
-  {"id":5,"nombre":5}
-];  // Tableau des articles dans le panier
+var panier = [];  // Tableau des articles dans le panier
 
 var coordonnees = {};//{    // Coordonnées de la personne
 
@@ -42,28 +38,7 @@ function afficheContenuPageLivres(filtre){
     $("#livresCard").append(listElements);
     
     // On indique ce qui est affiché
-    var titre;
-    switch(filtre.id.toLowerCase()){
-      case "roman":
-        titre = "Nos Romans";
-        break;
-      case "sciences":
-        titre = "Nos Livres de Sciences";
-        break;
-      case "histoire":
-        titre = "Nos Livres d'Histoire";
-        break;
-      case "bdmanga":
-        titre = "Nos BD et Mangas";
-        break;
-      case "sciencefiction":
-        titre = "Nos Livres de Science-Fiction";
-        break;
-      default:
-        titre = "Tous nos Livres";
-        break;
-    }
-    $("#currentDisplay").text(titre);
+    $("#currentDisplay").text(getCategorieTitre(filtre.id));
   }  
 }
 
@@ -125,6 +100,7 @@ function getCardElement(leLivre){
   lImage.setAttribute("alt", "Image Livre"); 
   lImage.setAttribute("class", "w3-card-4"); 
   lImage.setAttribute("style", "height:200px");
+  lImage.setAttribute("onClick", "displayLivreDetail(this);");
 
   // Npm de l'auteur
   var lAuteur = document.createElement("h5");
@@ -153,14 +129,13 @@ function getCardElement(leLivre){
   return laCard;
 }
 
-
 // Ajoute l'élément en paramètre au panier
 function addOneToPanier(element){
   var id = element.parentElement.parentElement.parentElement.getAttribute("data-userid");
   var found = false;
   var taille = panier.length;
 
-  // On ajoute un élément au panier
+  // On ajoute un élément au panier (s'il existe déjà)
   for(var i = 0 ; i < taille ; i++){
     article = panier[i];
     if(article.id == id){
@@ -183,6 +158,42 @@ function addOneToPanier(element){
   refreshButtonPanier();
 }
 
+// Renvoie le nom de la catégorie correspondant à son code
+function getCategorieName(catCode){
+  switch(catCode.toLowerCase()){
+    case "roman":
+      return "Romans";
+    case "sciences":
+      return "Sciences";
+    case "histoire":
+      return "Histoire";
+    case "bdmanga":
+      return "BD et Mangas";
+    case "sciencefiction":
+      return "Science-Fiction";
+    default:
+      return "";
+  }
+}
+
+// Renvoie le titre de la catégorie correspondant à son code
+function getCategorieTitre(catCode){
+  switch(catCode.toLowerCase()){
+    case "roman":
+      return "Nos " + getCategorieName(catCode);
+    case "sciences":
+      return "Nos Livres de " + getCategorieName(catCode);
+    case "histoire":
+      return "Nos Livres d'" + getCategorieName(catCode);
+    case "bdmanga":
+      return "Nos " + getCategorieName(catCode);
+    case "sciencefiction":
+      return "Nos Livres de " + getCategorieName(catCode);
+    default:
+      return "Tous nos Livres";
+  }
+}
+
 // On affiche le nombre d'article dans le panier
 function refreshButtonPanier(){
   var nbArticle = 0;
@@ -190,6 +201,22 @@ function refreshButtonPanier(){
     nbArticle += p.nombre;
   });
   $("#panierBadge").text(nbArticle);
+}
+
+// Affiche le detail du livre
+function displayLivreDetail(ceLivre){
+  // On récupère l'Id
+  var id = ceLivre.parentElement.parentElement.getAttribute("data-userid");
+  
+  // On rempli les champs avec les informations du livre choisi
+  $("#livreDetailImage").attr("src", "images/" + livres[id].image);
+  $("#livreDetailTitre").text(livres[id].titre);
+  $("#livreDetailAuteur").text(livres[id].auteur);
+  $("#livreDetailDesc").text(livres[id].desc);
+  $("#livreDetailCategorie").text(getCategorieName(livres[id].categorie));
+
+  // On affiche la fenêtre
+  document.getElementById('livreModal').style.display='block';
 }
 
 
@@ -630,19 +657,6 @@ function payerPanier(){
   refreshButtonPanier();
 }
 
-// DEBUG : Affiche le contenu du tableau "panier"
-function AlertPanier(){  
-  var popo = "";
-  var taille = panier.length;
-  for(var i = 0 ; i < taille ; i++){
-    popo += panier[i].id + "(" + panier[i].nombre + ")";
-    if(i < taille - 1){
-      popo += ", ";
-    } 
-  }
-  alert("panier = " + popo);
-}
-
 
 /* ====================== */
 /* ===    FACTURE     === */
@@ -927,7 +941,3 @@ $(document).ready(function() {
   });
 
 }); //Fonctions JQuery
-
-
-// DEBUG
-//alert("PAGE RELOADÉE !!");

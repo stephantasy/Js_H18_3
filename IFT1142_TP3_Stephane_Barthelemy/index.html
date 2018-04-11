@@ -67,11 +67,10 @@
   <!-- PAGE CONTENT -->
   <div class="w3-main" style="margin-left:300px">
 
-    <!-- Header -->
-    <a href="#"><img src="/w3images/avatar_g2.jpg" style="width:65px;" class="w3-circle w3-right w3-margin w3-hide-large w3-hover-opacity"></a>
+    <!-- Header (bouton menu qui apparait si l'affichage n'est pas très large)-->
     <span class="w3-button w3-hide-large w3-xxlarge w3-hover-theme" onclick="w3_open()"><i class="fa fa-bars"></i></span>
 
-    <!-- NavBar -->
+    <!-- NavBar  -->
     <div class="w3-bar w3-theme-dark">
 
       <!-- HEURE -->
@@ -79,7 +78,6 @@
 
       <!-- BOUTON NOUVEAUTÉ -->
       <button onclick="afficheContenuPageLivres()" class="w3-bar-item w3-button w3-large w3-hover-theme w3-margin w3-text-theme"><i class="fa fa-diamond w3-margin-right"></i>Nouveauté !</button>
-
 
       <!-- BOUTON AFFICHER TOUS LES ARTICLES -->
       <button id="AllLivres" onclick="afficheContenuPageLivres(this)" class="w3-bar-item w3-large  w3-hover-theme w3-button w3-margin w3-text-theme"><i class="fa fa-list w3-margin-right"></i>Afficher tous les articles</button>
@@ -108,7 +106,7 @@
       </button>
       <!--<button onclick="AlertPanier()" class="w3-button w3-red">Tableau Panier</button>-->
       
-    </div><!-- NavBar -->
+    </div><!-- NavBar  -->
 
 
     <!-- PANIER MODAL -->
@@ -194,11 +192,34 @@
       <h2 id="currentDisplay"></h2>
     </div> 
 
+
     <!-- CARD DES LIVRES -->
     <div id="livresCard" class="w3-container"></div>
 
+
+    <!-- MODAL LIVRE DETAIL -->
+    <div id="livreDetail">
+      <div id="livreModal" class="w3-modal" onclick="this.style.display='none'">
+        <div id="livreDetail" class="w3-modal-content w3-card-4 w3-animate-zoom">
+          <div class="w3-bar w3-padding w3-theme-l4 w3-topbar w3-bottombar w3-border-teal">
+            <div class="w3-bar-item">
+              <img id="livreDetailImage" src="" alt="image_livre" style="height:400px;">
+            </div>
+            <div class="w3-bar-item" style="width:60%">
+              <h3 id="livreDetailTitre"></h3>
+              <p id="livreDetailAuteur" class="w3-opacity"></p>
+              <p id="livreDetailDesc"></p>
+              <h6><i>Catégorie : <span id="livreDetailCategorie"></span></i></h6>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
     <!-- SNACKBAR -->
     <div id="snackbar"></div>
+
 
     <!-- ABOUT -->
     <div id="about" class="w3-theme-l1" style="padding-bottom:16px;">
