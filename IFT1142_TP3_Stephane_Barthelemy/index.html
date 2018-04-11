@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <!-- Stéphane Barthélemy (20084771) -->
 <!--        IFT1142 - TP3           -->
-<html>
+<html lang="fr">
 <head>	
 	<!-- TITRE -->
 	<title>La Livrairie !</title>
@@ -38,7 +38,7 @@
       <a href="#" onclick="w3_close()" class="w3-hide-large w3-right w3-jumbo w3-padding w3-hover-text-theme" title="close menu">
         <i class="fa fa-remove"></i>
       </a>
-      <img src="images/logo.jpg" style="width:100%;" class="w3-round"><br><br>
+      <img src="images/logo.jpg" alt="compagny_logo" style="width:100%;" class="w3-round"><br><br>
       <h4><b>La Livrairie !</b></h4>
       <p class="w3-text-grey"><b>Avec vous depuis 2018</b></p>
     </div>
@@ -96,13 +96,13 @@
 
       <!-- BOUTON PANIER -->
       <button class="w3-button w3-large w3-right w3-hover-theme" onclick="displayPanier()" style="padding:12px;">
-        <div class="w3-bar">
-          <div class="w3-display-container w3-bar-item">
+        <span class="w3-bar">
+          <span class="w3-display-container w3-bar-item">
             <i class="fa fa-shopping-cart w3-xxlarge"></i>      
             <span id="panierBadge" class="w3-badge w3-small w3-amber w3-display-topright"></span>
-          </div>
-          <div class="w3-bar-item">Mon Panier</div>
-        </div>
+          </span>
+          <span class="w3-bar-item">Mon Panier</span>
+        </span>
       </button>
       <!--<button onclick="AlertPanier()" class="w3-button w3-red">Tableau Panier</button>-->
       
@@ -189,7 +189,7 @@
 
     <!-- LIVRES AFFICHÉS -->
     <div  class="w3-container w3-theme-d3 w3-text-theme">
-      <h2 id="currentDisplay"></h2>
+      <h2 id="currentDisplay">Categorie</h2>
     </div> 
 
 
@@ -198,23 +198,22 @@
 
 
     <!-- MODAL LIVRE DETAIL -->
-    <div id="livreDetail">
-      <div id="livreModal" class="w3-modal" onclick="this.style.display='none'">
-        <div id="livreDetail" class="w3-modal-content w3-card-4 w3-animate-zoom">
-          <div class="w3-bar w3-padding w3-theme-l4 w3-topbar w3-bottombar w3-border-teal">
-            <div class="w3-bar-item">
-              <img id="livreDetailImage" src="" alt="image_livre" style="height:400px;">
-            </div>
-            <div class="w3-bar-item" style="width:60%">
-              <h3 id="livreDetailTitre"></h3>
-              <p id="livreDetailAuteur" class="w3-opacity"></p>
-              <p id="livreDetailDesc"></p>
-              <h6><i>Catégorie : <span id="livreDetailCategorie"></span></i></h6>
-            </div>
+    <div id="livreModal" class="w3-modal" onclick="this.style.display='none'">
+      <div id="livreDetail" class="w3-modal-content w3-card-4 w3-animate-zoom">
+        <div class="w3-bar w3-padding w3-theme-l4 w3-topbar w3-bottombar w3-border-teal">
+          <div class="w3-bar-item">
+            <img id="livreDetailImage" src="image_source" alt="image_livre" style="height:400px;">
+          </div>
+          <div class="w3-bar-item" style="width:60%">
+            <h3 id="livreDetailTitre">Titre Livre</h3>
+            <p id="livreDetailAuteur" class="w3-opacity"></p>
+            <p id="livreDetailDesc"></p>
+            <h6><i>Catégorie : <span id="livreDetailCategorie"></span></i></h6>
           </div>
         </div>
       </div>
     </div>
+
 
 
     <!-- SNACKBAR -->
@@ -256,7 +255,7 @@
         </header>
         
         <div class="w3-container">
-          <form action="" method="post" onSubmit="return false" id="contactModalForm" class="w3-container w3-card-4 w3-light-grey w3-text-blue w3-margin">
+          <form action="#" method="post" onSubmit="return false" id="contactModalForm" class="w3-container w3-card-4 w3-light-grey w3-text-blue w3-margin">
             <!-- Nom -->
             <div class="w3-row w3-section">
               <div class="w3-col" style="width:50px"><i class="w3-xxlarge fa fa-user"></i></div>
