@@ -34,6 +34,14 @@ body{
   display: inline-block;
 }
 
+/* CONTACT */
+.my-error-class {
+  color:#FF0000;
+}
+.my-valid-class {
+  color:#000000;
+}
+
 /* DIVERS */
 
 /* Bouton de fermeture */

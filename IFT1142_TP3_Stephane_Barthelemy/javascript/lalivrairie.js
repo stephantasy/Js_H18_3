@@ -655,6 +655,9 @@ function payerPanier(){
   
   // Nb article dans le panier
   refreshButtonPanier();
+
+  // On affiche que le paiement a été effectué
+  dipslaySnackbar("Paiement effectué. Merci !");
 }
 
 
@@ -733,6 +736,9 @@ function createFactureElement(article){
 function imprimerFacture(){
   // Impresssion de la facture (Simulation)
   document.getElementById('factureModal').style.display='none';
+
+    // On affiche que le paiement a été effectué
+    dipslaySnackbar("Facture imprimée");
 }
 
 
@@ -810,6 +816,98 @@ function imprimerFacture(){
 }
 
 
+/* ================== */
+/* === FORMULAIRE === */
+/* ================== */
+
+// Fonctions JQuery
+$(document).ready(function() {
+  
+  // Validation du formulaire
+  var validator = $("#contactModalForm").validate({
+    rules: {
+      contactFormNom: {
+        required: true
+      },      
+      contactFormPrenom: {
+        required: true
+      },      
+      contactFormAddress: {
+        required: true
+      },
+      contactFormPhone: {
+        required: true,
+        regex: /^[0-9]{3}-[0-9]{3}-[0-9]{4}$/
+      }, 
+      contactFormEmail: {
+        required: true,
+        regex: /^(\w+\.)*\w+@(\w+\.)+[A-Za-z]+$/
+      }
+    },
+    messages: {
+      contactFormNom: {
+        required: "Entrez votre nom"
+      },
+      contactFormPrenom: {
+        required: "Entrez votre prénom"
+      },
+      contactFormAddress: {
+        required: "Entrez votre adresse"
+      },
+      contactFormPhone: {
+        required: "Entrez un numéro de téléphone",
+        regex: "Veuillez respecter le format 123-456-7890"
+      },
+      contactFormEmail: {
+        required: "Entrez votre courriel",
+        regex: "Veuillez respecter le format pseudo@domaine.ca"
+      }
+    },
+    errorClass: "my-error-class",
+    validClass: "my-valid-class"
+  });
+
+  // Validation Regex pour le formulaire
+  $.validator.addMethod("regex", function(value, element, regexpr) {          
+    return regexpr.test(value);
+  });
+  
+  // Envoie du formulaire de contact (Simulation)
+  $("#submitButtonContactForm").click(function(){
+
+    // Si le formulaire est bien rempli, on l'envoie !
+    if($("#contactModalForm").valid()){
+      // On mémorise les informations
+      coordonnees.nom = $("#contactFormNom").val();
+      coordonnees.prenom = $("#contactFormPrenom").val();
+      coordonnees.address = $("#contactFormAddress").val();
+      coordonnees.phone = $("#contactFormPhone").val();
+      coordonnees.mail = $("#contactFormEmail").val();      
+
+      // On envoi le formulaire
+      /*$.ajax({
+        type: "POST",
+        url: "Path_to_URL",
+        data: $("#contactModalForm").serialize(),        
+      }).done(function(data){
+        // Simulation
+        dipslaySnackbar("Formulaire envoyé !");
+      });*/
+
+      // Simulation
+      dipslaySnackbar("Formulaire envoyé !");
+
+      // Simulation : On cache le formulaire
+      $("#contactModal").hide();
+    }else{
+      validator.focusInvalid();
+    }
+    return false; // avoid to execute the actual submit of the form.
+  });
+
+}); //Fonctions JQuery
+
+
 /* ============== */
 /* === DIVERS === */
 /* ============== */
@@ -854,90 +952,3 @@ function dipslaySnackbar(msg) {
   setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
 }
 
-
-/* ================== */
-/* === FORMULAIRE === */
-/* ================== */
-
-// Fonctions JQuery
-$(document).ready(function() {
-  
-  // Validation du formulaire
-  $(function() {
-    $("#contactModalForm").validate({
-      rules: {
-        contactFormNom: {
-          required: true
-        },      
-        contactFormPrenom: {
-          required: true
-        },      
-        contactFormAddress: {
-          required: true
-        },
-        contactFormPhone: {
-          required: true,
-          regex: /^[0-9]{3}-[0-9]{3}-[0-9]{4}$/
-        }, 
-        contactFormEmail: {
-          required: true,
-          regex: /^(\w+\.)*\w+@(\w+\.)+[A-Za-z]+$/
-        }
-      },
-      messages: {
-        contactFormNom: {
-          required: "Entrez votre nom"
-        },
-        contactFormPrenom: {
-          required: "Entrez votre prénom"
-        },
-        contactFormAddress: {
-          required: "Entrez votre adresse"
-        },
-        contactFormPhone: {
-          required: "Entrez un numéro de téléphone",
-          regex: "Veuillez respecter le format 123-456-7890"
-        },
-        contactFormEmail: {
-          required: "Entrez votre courriel",
-          regex: "Veuillez respecter le format pseudo@domaine.ca"
-        }
-      }
-    });
-  });
-  // Validation Regex pour le formulaire
-  $.validator.addMethod("regex", function(value, element, regexpr) {          
-    return regexpr.test(value);
-  });
-  
-  // Envoie du formulaire de contact (Simultation)
-  $("#submitButtonContactForm").click(function(){
-
-    // Si le formulaire est bien rempli, on l'envoie !
-    if($("#contactModalForm").valid()){
-      // On mémorise les informations
-      coordonnees.nom = $("#contactFormNom").val();
-      coordonnees.prenom = $("#contactFormPrenom").val();
-      coordonnees.address = $("#contactFormAddress").val();
-      coordonnees.phone = $("#contactFormPhone").val();
-      coordonnees.mail = $("#contactFormEmail").val();      
-
-      // On envoi le formulaire
-      var url = "path/to/myscript.php"; // the script where you handle the form input.
-      $.ajax({
-        type: "POST",
-        url: url,
-        data: $("#contactModalForm").serialize(), // serializes the form's elements.
-        success: function(data)
-        {
-          // Simulation
-        }
-      });
-      
-      // Simulation : On cache le formulaire
-      $("#contactModal").hide();
-    }
-    return false; // avoid to execute the actual submit of the form.
-  });
-
-}); //Fonctions JQuery
