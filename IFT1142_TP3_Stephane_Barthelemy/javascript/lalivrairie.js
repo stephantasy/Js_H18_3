@@ -818,20 +818,20 @@ function imprimerFacture(){
 // Source : https://www.w3schools.com/js/tryit.asp?filename=tryjs_timing_clock
 function displayTime() {
   var today = new Date();
-  var d = today.getDay();
-  var m = today.getMonth();
+  var d = today.getDate();
+  var m = today.getMonth()+1;
   var y = today.getFullYear();
   var h = today.getHours();
   var mm = today.getMinutes();
   var s = today.getSeconds();
-  d = checkTime(d);
-  m = checkTime(m);
-  mm = checkTime(mm);
-  s = checkTime(s);
+  d = checkNumber(d);
+  m = checkNumber(m);
+  mm = checkNumber(mm);
+  s = checkNumber(s);
   document.getElementById('displayTime').innerHTML = d + "/" + m + "/" + y + " " + h + ":" + mm + ":" + s;
   var t = setTimeout(displayTime, 500);
 }
-function checkTime(i) {
+function checkNumber(i) {
   if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
   return i;
 }
