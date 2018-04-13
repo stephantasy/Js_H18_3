@@ -33,7 +33,7 @@
 <body id="hautPage" onload="pageInitializer(); displayTime();" class="w3-theme-l4">
 
   <!-- Sidebar/menu -->
-  <nav class="w3-sidebar w3-collapse w3-white w3-animate-left w3-theme-l1" style="z-index:3;width:300px;" id="mySidebar"><br>
+  <nav class="w3-sidebar w3-collapse w3-white w3-animate-left w3-theme-l1" style="z-index:3;width:270px;" id="mySidebar"><br>
     <div class="w3-container">
       <a href="#" onclick="w3_close()" class="w3-hide-large w3-right w3-jumbo w3-padding w3-hover-text-theme" title="close menu">
         <i class="fa fa-remove"></i>
@@ -65,7 +65,7 @@
   <div class="w3-overlay w3-hide-large w3-animate-opacity" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
 
   <!-- PAGE CONTENT -->
-  <div class="w3-main" style="margin-left:300px">
+  <div class="w3-main" style="margin-left:270px">
 
     <!-- Header (bouton menu qui apparait si l'affichage n'est pas très large)-->
     <span class="w3-button w3-hide-large w3-xxlarge w3-hover-theme" onclick="w3_open()"><i class="fa fa-bars"></i></span>
@@ -74,16 +74,16 @@
     <div class="w3-bar w3-theme-dark">
 
       <!-- HEURE -->
-      <div class="w3-bar-item w3-large w3-margin" style="height:100%;"><i class="fa fa-clock-o w3-margin-right"></i><span id="displayTime"></span></div>
+      <div class="w3-bar-item w3-margin" style="height:100%;"><i class="fa fa-clock-o w3-margin-right"></i><span id="displayTime"></span></div>
 
       <!-- BOUTON NOUVEAUTÉ -->
-      <button onclick="afficheContenuPageLivres()" class="w3-bar-item w3-button w3-large w3-hover-theme w3-margin w3-text-theme"><i class="fa fa-diamond w3-margin-right"></i>Nouveauté !</button>
+      <button onclick="afficheContenuPageLivres()" class="w3-bar-item w3-button w3-hover-theme w3-margin w3-text-theme"><i class="fa fa-diamond w3-margin-right"></i>Nouveauté !</button>
 
       <!-- BOUTON AFFICHER TOUS LES ARTICLES -->
-      <button id="AllLivres" onclick="afficheContenuPageLivres(this)" class="w3-bar-item w3-large  w3-hover-theme w3-button w3-margin w3-text-theme"><i class="fa fa-list w3-margin-right"></i>Afficher tous les articles</button>
+      <button id="AllLivres" onclick="afficheContenuPageLivres(this)" class="w3-bar-item w3-hover-theme w3-button w3-margin w3-text-theme"><i class="fa fa-list w3-margin-right"></i>Afficher tous les articles</button>
 
       <!-- BOUTON CATEGORIES -->
-      <div class="w3-dropdown-hover w3-large w3-hide-small w3-margin">
+      <div class="w3-dropdown-hover w3-hide-small w3-margin">
         <button id="boutonCategorie" class=" w3-button w3-hover-theme w3-text-theme">Catégories <i class="fa fa-chevron-circle-down w3-large"></i></button>     
         <div id="choixCategorie" class="w3-dropdown-content w3-bar-block w3-card-4">
           <div id="Roman" class="w3-bar-item w3-button w3-hover-theme" onclick="afficheContenuPageLivres(this)">Roman</div>
@@ -95,7 +95,7 @@
       </div>
 
       <!-- BOUTON PANIER -->
-      <button class="w3-button w3-large w3-right w3-hover-theme" onclick="displayPanier()" style="padding:12px;">
+      <button class="w3-button w3-right w3-hover-theme" onclick="displayPanier()" style="padding-top:12px; padding-bottom:6px;">
         <span class="w3-bar">
           <span class="w3-display-container w3-bar-item">
             <i class="fa fa-shopping-cart w3-xxlarge"></i>      
